@@ -68,6 +68,7 @@ alias .u="yay -Syu"                 # Update packages and repositories databases
 alias .s="yay -Syy"                 # Sync packages and repositories
 alias .o='pacman -Qtdq'             # Orphaned packages listing
 alias .c='yay -Rns $(pacman -Qtdq)' # Cleanup Orphaned packages and their dependencies
+alias .pm-remove-lock='sudo rm -f /var/lib/pacman/db.lck'
 
 # Coloring Grep Outputs
 alias grep='command grep --color=auto'

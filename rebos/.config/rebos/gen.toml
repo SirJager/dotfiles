@@ -3,19 +3,20 @@
 # --------------------- #
 
 imports = [
-  "init_pkgs",    # rebos needs these, paru, rustup, cargo
-  "sys_pkgs",     # auth agent,volume, network, bluetooth, brightness
-  "core_pkgs",    # core utils like git, wget, curl, timeshift etc
-  "gpu_pkgs",     # amd graphics drivers, mesa, etc
-  "login_man",    # login managers like sddm, gdm, lightdm etc
-  "wayland_pkgs", # wayland utils like rofi-wayland etc
-  "wm_niri",      # niri window manager and its packages
-  "wm_gnome",     # gnome window manager and its packages
-  "theme_pkgs",   # themes, icons, cursors, etc
-  "go_pkgs",      # downloading go projects from git and building them
-  "fonts_dl",     # fonts downloader from arch repo, google fonts
-  "work_pkgs",    # work related packages, docker, vscode etc
-  "symlinks",     # automatically manage symlinks
+  "init_pkgs",       # rebos needs these, paru, rustup, cargo
+  "sys_pkgs",        # auth agent,volume, network, bluetooth, brightness
+  "core_pkgs",       # core utils like git, wget, curl, timeshift etc
+  "gpu_pkgs",        # amd graphics drivers, mesa, etc
+  "login_man",       # login managers like sddm, gdm, lightdm etc
+  "wayland_pkgs",    # wayland utils like rofi-wayland etc
+  "wm_niri",         # niri window manager and its packages
+  "wm_gnome",        # gnome window manager and its packages
+  "theme_pkgs",      # themes, icons, cursors, etc
+  "go_pkgs",         # downloading go projects from git and building them
+  "fonts_dl",        # fonts downloader from arch repo, google fonts
+  "work_pkgs",       # work related packages, docker, vscode etc
+  "symlinks",        # automatically manage symlinks
+  "virtual_machine", # virt manager for virual machines
 ]
 
 [managers.packages]

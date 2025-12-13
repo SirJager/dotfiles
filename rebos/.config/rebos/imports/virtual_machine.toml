@@ -1,0 +1,13 @@
+# Virt Manager | Virtual Machines
+[managers.packages]
+items = [
+  "qemu-base",
+  "virt-manager",
+  "libvirt",
+  "dnsmasq",
+  "ebtables",
+  "iptables-nft",
+]
+
+[managers.serv_start]
+items = ["libvirtd"]

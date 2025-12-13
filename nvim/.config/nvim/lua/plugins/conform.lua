@@ -4,12 +4,13 @@ local M = {
 }
 
 M.opts = {
+  notify_no_formatters = false,
   formatters_by_ft = {
     lua = { 'stylua' },
-    javascript = { 'prettierd', lsp_format = 'fallback' },
-    typescript = { 'prettierd', lsp_format = 'fallback' },
-    javascriptreact = { 'prettierd', lsp_format = 'fallback' },
-    typescriptreact = { 'prettierd', lsp_format = 'fallback' },
+    javascript = { 'prettierd', 'eslint_d', lsp_format = 'fallback', stop_after_first = true, timeout_ms = 5000 },
+    typescript = { 'prettierd', 'eslint_d', lsp_format = 'fallback', stop_after_first = true, timeout_ms = 5000 },
+    javascriptreact = { 'prettierd', 'eslint_d', lsp_format = 'fallback', stop_after_first = true, timeout_ms = 5000 },
+    typescriptreact = { 'prettierd', 'eslint_d', lsp_format = 'fallback', stop_after_first = true, timeout_ms = 5000 },
     go = { 'goimports', 'gofmt' },
     rust = { 'rustfmt', lsp_format = 'fallback' },
     mark = { 'rustfmt', lsp_format = 'fallback' },
@@ -18,7 +19,7 @@ M.opts = {
     html = { 'prettierd' },
     json = { 'prettierd' },
     golang = { 'golines' },
-    yaml = { 'prettierd' },
+    -- yaml = { 'prettierd' },
     markdown = { 'prettierd' },
     graphql = { 'prettierd' },
     toml = { 'taplo' },

@@ -113,7 +113,7 @@ layout {
     }
     shadow {
         //::toggle::shadow
-// on
+        // on
         softness 30
         spread 5
         offset x=0 y=5
@@ -544,6 +544,9 @@ binds {
     }
     Mod+Ctrl+WheelScrollUp cooldown-ms=150 hotkey-overlay-title="workspace:: focus column left" {
         focus-column-left
+    }
+    Mod+Shift+Y cooldown-ms=150 hotkey-overlay-title="system:: local ip address" {
+      spawn-sh "notify-send \"Local IP Address: $(localip)\" "
     }
  //
 }

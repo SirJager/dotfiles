@@ -52,14 +52,14 @@ M.servers = {
     'mypy',
     'hadolint',
     'markdownlint',
-    'eslint_d',
+    -- 'eslint_d',
     'protolint',
     'gospel',
     'golangci-lint',
   },
   formatters = {
     'black',
-    "beautysh",
+    'beautysh',
     'prettierd',
     'shfmt',
     'kdlfmt',
@@ -71,7 +71,8 @@ M.servers = {
     'gofumpt',
     'golines',
   },
-  complier = {
+  compiler = {
+    -- 'eslint-lsp',
     'tree-sitter-cli',
   },
 }
@@ -79,7 +80,7 @@ M.servers = {
 function M.config()
   require('lspkind').setup()
   local flat = require('globals.utils').flattable
-  local servers = flat(M.servers.formatters, M.servers.lsp, M.servers.linters, M.servers.complier)
+  local servers = flat(M.servers.formatters, M.servers.lsp, M.servers.linters, M.servers.compiler)
 
   require('mason').setup {
     opts = {
@@ -104,7 +105,7 @@ function M.config()
 
   require('mason-null-ls').setup {
     automatic_installation = true,
-    ensure_installed = servers,
+    ensure_installed = flat(M.servers.formatters, M.servers.linters, M.servers.compiler),
   }
 
   vim.lsp.enable(servers)
