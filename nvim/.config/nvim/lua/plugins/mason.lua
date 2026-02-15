@@ -66,6 +66,7 @@ M.servers = {
     'sqlfmt',
     'jq',
     'prettierd',
+    'codespell',
     'fixjson',
     'goimports_reviser',
     'gofumpt',

@@ -183,6 +183,7 @@ window-rule {
     match app-id="xdg-desktop-portal-gtk"
     match app-id="firefox$" title="^Picture-in-Picture$"
     match app-id="brave-browser$" title="^Picture-in-Picture$"
+    match app-id="BeeperTexts"
     open-floating true
 }
 window-rule {
@@ -261,6 +262,9 @@ binds {
     }
     Mod+B repeat=false hotkey-overlay-title="launch:: brave browser profile:: sirjager" {
         spawn "brave" "--profile-directory=sirjager"
+    }
+    Mod+N repeat=false hotkey-overlay-title="launch:: brave browser profile:: 5321ankur" {
+        spawn "brave" "--profile-directory=5321ankur"
     }
     Mod+Q repeat=false hotkey-overlay-title="launch:: qutebrowser" {
         spawn "qutebrowser" "https://chatgpt.com"
@@ -546,7 +550,7 @@ binds {
         focus-column-left
     }
     Mod+Shift+Y cooldown-ms=150 hotkey-overlay-title="system:: local ip address" {
-      spawn-sh "notify-send \"Local IP Address: $(localip)\" "
+        spawn-sh "notify-send \"Local IP Address: $(localip)\" "
     }
  //
 }

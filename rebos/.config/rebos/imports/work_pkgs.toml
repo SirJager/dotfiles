@@ -13,6 +13,7 @@ items = [
   "gpu-screen-recorder", # Screen Recording 
   "slurp",               # Region Selection: for region recording
   "qutebrowser",         # Keyboard driven minial sleep browser
+  "docker-buildx",       # Buildx plugin for docker 
 ]
 
 [managers.serv_start]

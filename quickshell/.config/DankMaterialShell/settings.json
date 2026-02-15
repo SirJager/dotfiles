@@ -149,7 +149,7 @@
   "appLauncherViewMode": "list",
   "spotlightModalViewMode": "grid",
   "sortAppsAlphabetically": true,
-  "networkPreference": "auto",
+  "networkPreference": "wifi",
   "vpnLastConnected": "",
   "iconTheme": "McMojave-circle",
   "launcherLogoMode": "compositor",
