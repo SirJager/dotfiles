@@ -75,6 +75,7 @@ export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$GOBIN" # go pkgs
 
 # Node.js & Package Managers
 export PATH="$PATH:$FNM_PATH"
+export PATH="$PATH:$FNM_PATH/aliases/default/bin"
 export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
