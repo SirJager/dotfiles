@@ -3,10 +3,17 @@ local M = {
   lazy = false,
 }
 
-local webdev = { 'prettierd', 'eslint_d', lsp_format = 'fallback', stop_after_first = true, timeout_ms = 5000 }
+local webdev = {
+  'prettierd',
+  'eslint_d',
+  'biome',
+  lsp_format = 'fallback',
+  stop_after_first = true,
+  timeout_ms = 5000,
+}
 
 M.opts = {
-  notify_no_formatters = false,
+  notify_no_formatters = true,
   formatters_by_ft = {
     lua = { 'stylua' },
     astro = webdev,
@@ -22,8 +29,9 @@ M.opts = {
     html = { 'prettierd' },
     json = { 'prettierd' },
     golang = { 'golines' },
-    -- yaml = { 'prettierd' },
-    markdown = { 'prettierd' },
+    yaml = webdev,
+    markdown = webdev,
+    mdoc = webdev,
     graphql = { 'prettierd' },
     toml = { 'taplo' },
     sh = { 'beautysh' },

@@ -10,23 +10,22 @@ USE_ROFI=false
 USE_YAD=false
 
 while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --dmenu | -dmenu | -d | --rofi | -rofi | -r) USE_ROFI=true ;;
-    --notify | -notify | -n) NOTIFY=true ;;
-    --echo | -echo | -e) SHOW_IN_TERMINAL=true ;;
-    --yad | -yad | -y | --dialog | -dialog | -d) USE_YAD=true ;;
-    --prompt=*) PROMPT="${1#*=}" ;;
-    --config=*) CONFIG="${1#*=}" ;;
-    *) echo "⚠️ Unknown flag ignored: $1" ;;
-  esac
-  shift
+    case "$1" in
+        --dmenu | -dmenu | -d | --rofi | -rofi | -r) USE_ROFI=true ;;
+        --yad | -yad | -y | --dialog | -dialog) USE_YAD=true ;;
+        --fzf | -fzf | -f | --term | -term | -t |--echo | -echo | -e) USE_FZF=true ;;
+        --prompt=*) PROMPT="${1#*=}" ;;
+        --config=*) CONFIG="${1#*=}" ;;
+        *) echo "⚠️ Unknown flag ignored: $1" ;;
+    esac
+    shift
 done
 
 
 # Validation
 if ! $USE_YAD && ! $USE_ROFI && ! $USE_FZF; then
-  echo "⚠️  Choose a display method: --fzf | --yad | --rofi"
-  exit 1
+    echo "⚠️  Choose a display method: --fzf | --yad | --rofi"
+    exit 1
 fi
 
 yad_args=()
@@ -73,21 +72,21 @@ while IFS= read -r line; do
 done < "$CONFIG"
 
 show_in_yad(){
-  yad --list \
-      --height=600 \
-      --width=600 \
-      --title="Niri Keybindings" \
-      --column="Keybind" \
-      --column="Description" \
-      "${yad_args[@]}"
+    yad --list \
+        --height=600 \
+        --width=600 \
+        --title="Niri Keybindings" \
+        --column="Keybind" \
+        --column="Description" \
+        "${yad_args[@]}"
 }
 
 show_in_rofi(){
-  command cat "$TEMP_FILE" | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME"
+    command cat "$TEMP_FILE" | rofi -dmenu -p "$PROMPT" -theme "$ROFI_THEME"
 }
 
 show_in_fzf(){
-  command cat "$TEMP_FILE" | fzf --height=~50% --layout=reverse --border
+    command cat "$TEMP_FILE" | fzf --layout=reverse --prompt="Niri Keybindings: "
 }
 
 if [[ "${USE_YAD,,}" == "true" ]]; then   # ,, converts to lowercase

@@ -21,9 +21,12 @@ alias swayapps='swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id")
 alias docker-clean-buildx="docker buildx prune --all"   # Clean Docker Buildx
 alias docker-clean-builder="docker builder prune --all" # Clean Docker Builder
 alias docker-clean-image="docker image prune --all"     # Clean Unused Docker Images
+alias docker-clean-all='docker container prune -f && docker image prune -a -f && docker volume prune -a -f && docker builder prune -a -f && docker system prune -a --volumes -f'
 
 # System Info: Battery
 alias battery-info="upower -i /org/freedesktop/UPower/devices/battery_BAT0" # Show Battery Info
+
+alias .ip='ip addr show wlan0 | grep "inet " | awk "{print \$2}" | cut -d/ -f1'
 
 # Adb commands
 alias violet-scrcpy="scrcpy --no-audio -s $(adb devices | grep .101: | awk '{print $1}')"

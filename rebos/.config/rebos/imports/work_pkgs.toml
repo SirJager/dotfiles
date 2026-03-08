@@ -5,6 +5,8 @@
 [managers.packages]
 items = [
   "go",                  # Golang
+  "sqlit",               # A user friendly TUI for SQL databases.
+  "github-cli",          # Github cli
   "migrate",             # Migrate package for database migration with sql files
   "fnm",                 # Fast and simple node version manaager
   "serpl",               # Search and Replace through terminal
@@ -14,6 +16,7 @@ items = [
   "slurp",               # Region Selection: for region recording
   "qutebrowser",         # Keyboard driven minial sleep browser
   "docker-buildx",       # Buildx plugin for docker 
+  "luajit-tiktoken-bin", # binding of rust tiktoken to lua
 ]
 
 [managers.serv_start]

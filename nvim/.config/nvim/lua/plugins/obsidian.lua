@@ -112,23 +112,23 @@ function M.config()
           },
         },
       },
-      {
-        name = 'ankur-kumar',
-        path = '/mnt/storage/workspace/projects/ankur-kumar.in',
-        strict = true,
-        overrides = {
-          notes_subdir = 'src/content/blog',
-          new_notes_location = 'src/content/blog',
-          preferred_link_style = 'markdown',
-          markdown_link_func = function(opts)
-            print(opts)
-            return M.custom_link_func('/blog/', opts, 'web')
-          end,
-          wiki_link_func = function(opts)
-            return M.custom_link_func('/blog/', opts, 'web')
-          end,
-        },
-      },
+      -- {
+      --   name = 'ankur-kumar',
+      --   path = '/mnt/storage/workspace/projects/ankur-kumar.in',
+      --   strict = true,
+      --   overrides = {
+      --     notes_subdir = 'src/content/blog',
+      --     new_notes_location = 'src/content/blog',
+      --     preferred_link_style = 'markdown',
+      --     markdown_link_func = function(opts)
+      --       print(opts)
+      --       return M.custom_link_func('/blog/', opts, 'web')
+      --     end,
+      --     wiki_link_func = function(opts)
+      --       return M.custom_link_func('/blog/', opts, 'web')
+      --     end,
+      --   },
+      -- },
       {
         name = 'no-vault',
         path = function()

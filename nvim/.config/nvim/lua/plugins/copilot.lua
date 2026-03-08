@@ -1,7 +1,6 @@
 local M = {
   'CopilotC-Nvim/CopilotChat.nvim',
-  event = 'InsertEnter',
-  priority = 1000,
+  event = { 'BufReadPost' },
   dependencies = {
     { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
   },
@@ -11,8 +10,6 @@ local M = {
 M.opts = {
   -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
   system_prompt = 'COPILOT_INSTRUCTIONS', -- System prompt to use (can be specified manually in prompt via /).
-
-  model = 'gpt-4o-2024-11-20', -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
   agent = 'copilot', -- Default agent to use, see ':CopilotChatAgents' for available agents (can be specified manually in prompt via @).
   context = nil, -- Default context or array of contexts to use (can be specified manually in prompt via #).
   sticky = nil, -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
@@ -25,17 +22,18 @@ M.opts = {
 
   -- default window options
   window = {
-    layout = 'float', -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
-    width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
-    height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
-    -- Options below only apply to floating windows
+    layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
+    width = 0.6, -- fractional width of parent, or absolute width in columns when > 1
+
+    -- height = 0.6, -- fractional height of parent, or absolute height in rows when > 1
+    -- -- Options below only apply to floating windows
     relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
     border = 'rounded', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-    row = nil, -- row position of the window, default is centered
-    col = nil, -- column position of the window, default is centered
+    -- row = nil, -- row position of the window, default is centered
+    -- col = nil, -- column position of the window, default is centered
     title = 'Copilot Chat', -- title of chat window
-    footer = nil, -- footer of chat window
-    zindex = 1, -- determines if window is on top or below other floating windows
+    -- footer = nil, -- footer of chat window
+    -- zindex = 1, -- determines if window is on top or below other floating windows
   },
 
   show_help = true, -- Shows help message as virtual lines when waiting for user input

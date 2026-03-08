@@ -23,9 +23,10 @@ local M = {
 
 M.servers = {
   lsp = {
+    'astro',
     'lua_ls',
     'stylua',
-    'biome',
+    -- 'biome',
     'bashls',
     'buf_ls',
     'clangd',
@@ -43,16 +44,16 @@ M.servers = {
     'cssmodules_ls',
     'ts_ls',
     'tailwindcss',
-    'astro',
     'gopls',
     'golangci_lint_ls',
+    'vimls',
   },
   linters = {
     'shellcheck',
     'mypy',
     'hadolint',
     'markdownlint',
-    -- 'eslint_d',
+    'eslint_d',
     'protolint',
     'gospel',
     'golangci-lint',
@@ -71,6 +72,7 @@ M.servers = {
     'goimports_reviser',
     'gofumpt',
     'golines',
+    'yamlfix',
   },
   compiler = {
     -- 'eslint-lsp',
@@ -84,10 +86,6 @@ function M.config()
   local servers = flat(M.servers.formatters, M.servers.lsp, M.servers.linters, M.servers.compiler)
 
   require('mason').setup {
-    opts = {
-      automatic_installation = true,
-      ensure_installed = servers,
-    },
     ui = {
       border = 'rounded',
       icons = {
@@ -109,7 +107,7 @@ function M.config()
     ensure_installed = flat(M.servers.formatters, M.servers.linters, M.servers.compiler),
   }
 
-  vim.lsp.enable(servers)
+  vim.lsp.enable(M.servers.lsp)
 
   vim.api.nvim_create_user_command('MasonInstallAll', function()
     local servers_str = table.concat(servers, ' ')

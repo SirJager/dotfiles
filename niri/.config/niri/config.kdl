@@ -113,7 +113,7 @@ layout {
     }
     shadow {
         //::toggle::shadow
-        // on
+        on
         softness 30
         spread 5
         offset x=0 y=5
@@ -145,7 +145,7 @@ spawn-sh-at-startup "pgrep -x swww-daemon >/dev/null || swww-daemon"
 // spawn-sh-at-startup "pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -f kdeconnect-indicator >/dev/null || kdeconnect-indicator >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -x udiskie >/dev/null || udiskie --no-automount --smart-tray >/dev/null 2>&1"
-spawn-sh-at-startup "pidof -x niri-float-sticky >/dev/null || niri-float-sticky >/dev/null 2>&1"
+// spawn-sh-at-startup "pidof -x niri-float-sticky >/dev/null || niri-float-sticky >/dev/null 2>&1"
 //==============================================================================
 // Autostart: brave
 //==============================================================================
@@ -194,6 +194,10 @@ window-rule {
     default-column-display "tabbed"
 }
 window-rule {
+    match app-id="kitty"
+    opacity 0.9
+}
+window-rule {
     match app-id="org.qutebrowser.qutebrowser"
     opacity 0.8
 }
@@ -205,6 +209,10 @@ binds {
     // Dank Quick shell
     //==============================================================================
     Mod+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
+        // show-hotkey-overlay
+        spawn-sh "kitten quick-access-terminal --config ~/.config/kitty/float-keybinds.conf --instance-group kitty-quick-term /bin/zsh -c  'keybindings-niri --fzf'"
+    }
+    Mod+Ctrl+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
         // show-hotkey-overlay
         spawn-sh "keybindings-niri --rofi"
     }
@@ -549,9 +557,12 @@ binds {
     Mod+Ctrl+WheelScrollUp cooldown-ms=150 hotkey-overlay-title="workspace:: focus column left" {
         focus-column-left
     }
-    Mod+Shift+Y cooldown-ms=150 hotkey-overlay-title="system:: local ip address" {
+    Mod+Shift+Y cooldown-ms=300 hotkey-overlay-title="system:: local ip address" {
         spawn-sh "notify-send \"Local IP Address: $(localip)\" "
     }
+ //==============================================================================
+    // Miscellaneous Utility
+    //==============================================================================
  //
 }
 

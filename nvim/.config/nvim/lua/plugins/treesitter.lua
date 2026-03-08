@@ -75,10 +75,16 @@ M.opts = {
 
 function M.config(_, opts)
   vim.filetype.add { extension = { rasi = 'rasi' } }
-  vim.treesitter.language.register('css', 'rasi')
-  vim.filetype.add { extension = { mdx = 'mdx' } }
-  vim.treesitter.language.register('markdown', 'mdx')
+
+  -- for astro framework
   vim.filetype.add { extension = { astro = 'astro' } }
+  vim.filetype.add { extension = { mdx = 'mdx' } }
+  vim.filetype.add { extension = { mdoc = 'mdoc' } }
+
+  vim.treesitter.language.register('markdown', 'mdx')
+  vim.treesitter.language.register('markdown', 'mdoc')
+  vim.treesitter.language.register('css', 'rasi')
+
   require('nvim-treesitter.configs').setup(opts)
   -- require'treesitter-context'.setup{}
 end

@@ -77,8 +77,8 @@ return {
   {"<leader>s", group = "[S]earch", icon = " " },
   {"<leader>ss",function()require('snacks').picker.files({layout="ivy",regex=true,hidden=true,dirs={vim.fn.getcwd()},})end,desc = "[s]earch files"},
   {"<leader>sr",function()require('snacks').picker.resume({layout="ivy",})end,desc = "[r]esume search" },
-  {"<leader>sl",function()require('snacks').picker.lines()end,icon="󱎸 ", desc = "[l]ines search" },
-  {"<leader>sb",function()require('snacks').picker.buffers({layout="ivy",})end,icon = "󱎸 ",desc = "[b]uffers"},
+  {"<leader>sl",function()require('snacks').picker.lines()end,icon="󱎸 ", desc = "[l]lines search" },
+  {"<leader>sb",function()require('snacks').picker.buffers({layout="ivy",})end,icon = "󱎸 ",desc = "[b]buffers"},
   {"<leader>so",function()require('snacks').picker.recent({layout="ivy"})end,icon = " ",desc = "[o]pen recent"},
   {"<leader>sw",function()require('snacks').picker.grep({regex=true,hidden=true,dirs={vim.fn.getcwd()},layout = "ivy"})end, icon = "󰨭 ", desc = "grep" },
   {"<leader>sW",function()require('snacks').picker.grep_word()end, icon = "󰨭 ", desc = "[W]ord grep" },
@@ -90,7 +90,7 @@ return {
   {"<leader>sp",function()require('snacks').picker.projects()end,icon=" ",desc = "[p]rojects" },
   {"<leader>sc",function()require('snacks').picker.colorschemes({layout="ivy"})end,icon=" ",desc = "[c]olorschemes" },
   {"<leader>sM",function()require('snacks').picker.man()end,icon="󱔗 ",desc = "[m]an pages" },
-  {"<leader>sR",function()require('snacks').picker.registers({layout="ivy"})end, icon=" ", desc = "[R]egisters" },
+  {"<leader>sR",function()require('snacks').picker.registers({layout="ivy"})end, icon=" ", desc = "[R]registers" },
   {"<leader>sj",function()require('snacks').picker.jumps()end,icon="󱔕", desc = "[j]umps" },
   {"<leader>sh",function()require('snacks').picker.command_history()end,icon=" ", desc = "[h]istory" },
   {"<leader>st",function()require('snacks').picker.todo_comments({layout="default"})end,icon=" ", desc = "[t]odos" },
@@ -133,7 +133,7 @@ return {
   -- { "<leader>tlc", ":Lab code config<CR>", icon = " ", desc = "[C]onfig Lab" },
   -- -- Tools:LiveServer
   -- { "<leader>ts", group = "[S]erver Live", icon = " " },
-  -- { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]nstall Server" },
+  -- { "<leader>tsi", ":LiveServerInstall<CR>", icon = "󰏔 ", desc = "[I]install Server" },
   -- { "<leader>tsr", ":LiveServerStart<CR>", icon = " ", desc = "[R]un Live Server" },
   -- { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
@@ -144,6 +144,16 @@ return {
   {"<leader>md",":lua require('globals.utils').mark_cmd('delmarks')<CR>",icon = "󰆴 ",desc = "Delete [M]ark"},
   {"<leader>mx","lua require('globals.utils').mark_cmd('delmarks!')<CR>",icon = "󰗩 ",desc = "Delete all [M]arks"},
 
+
+  -- Ai 
+  { "<leader>i", group = "Cop[i]lot", icon = "󱘈" },
+  {"<leader>ii",":CopilotChat<CR>",icon = " ",desc = "Chat Open"},
+  {"<leader>ix",":CopilotChatClose<CR>",icon = " ",desc = "Chat [X]lose"},
+  {"<leader>ic",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [C]omit"},
+  {"<leader>id",":CopilotChatDocs<CR>",icon = " ",desc = "Chat [D]ocs"},
+  {"<leader>ie",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [E]xplain"},
+  {"<leader>if",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [F]ix"},
+  {"<leader>il",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [L]oad"},
 }
 
 -- stylua: ignore end

@@ -1,5 +1,5 @@
 # ---------------------------- #
-#    Core Packges For Linux    #
+#    Core Packages For Linux    #
 # ---------------------------- #
 
 [managers.packages]
@@ -41,6 +41,7 @@ items = [
   "bat",                    # Syntax-highlighting cat clone
   "stow",                   # Symlink farm manager
   "luarocks",               # Lua package manager
+  "luajit",                 # LuaJiT
   "trash-cli",              # Move files to trash from CLI
   "xdg-desktop-portal",     # XDG portal for dbus integration
   "xdg-desktop-portal-gtk", # GTK portal for bus integration
