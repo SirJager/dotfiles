@@ -40,7 +40,6 @@ items = [
   "yad",                    # GTK dialog generator
   "bat",                    # Syntax-highlighting cat clone
   "stow",                   # Symlink farm manager
-  "luarocks",               # Lua package manager
   "luajit",                 # LuaJiT
   "trash-cli",              # Move files to trash from CLI
   "xdg-desktop-portal",     # XDG portal for dbus integration

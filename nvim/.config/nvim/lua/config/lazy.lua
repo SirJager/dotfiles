@@ -43,7 +43,7 @@ require("lazy").setup("plugins", {
   },
   performance = {
     cache = {
-      enabled = true,
+      enabled = false,
       path = vim.fn.stdpath("cache") .. "/lazy/cache",
       disable_events = { "VimEnter", "BufReadPre" },
     },

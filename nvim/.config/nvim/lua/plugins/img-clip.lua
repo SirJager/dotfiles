@@ -5,8 +5,8 @@ local M = {
     'mdx',
     'mdoc',
     'norg',
-    -- "html",
-    -- "astro",
+    "html",
+    "astro",
   },
 }
 

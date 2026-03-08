@@ -1,10 +1,7 @@
 local M = {
   'nvim-lua/plenary.nvim',
   branch = 'master',
-
   dependencies = {
-    { 'vhyrro/luarocks.nvim', config = true },
-
     { 'nvzone/volt', lazy = true },
 
     { 'declancm/maximize.nvim', cmd = { 'Maximize' } },
@@ -29,9 +26,6 @@ M.fidget_opts = {
 }
 
 M.config = function(_, __)
-  require('luarocks-nvim').setup {
-    rocks = { 'magick' },
-  }
   require('maximize').setup()
   require('illuminate').configure()
   require('fidget').setup(M.fidget_opts)
