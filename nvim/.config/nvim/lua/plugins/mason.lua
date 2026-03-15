@@ -37,7 +37,8 @@ M.servers = {
     'jsonls',
     'dockerls',
     'docker_compose_language_service',
-    'marksman',
+    -- 'marksman', --
+    'markdown_oxide',
     'emmet_ls',
     'html',
     'cssls',
@@ -75,7 +76,7 @@ M.servers = {
     'yamlfix',
   },
   compiler = {
-    -- 'eslint-lsp',
+    'eslint-lsp',
     'tree-sitter-cli',
   },
 }
@@ -107,12 +108,30 @@ function M.config()
     ensure_installed = flat(M.servers.formatters, M.servers.linters, M.servers.compiler),
   }
 
-  vim.lsp.enable(M.servers.lsp)
-
   vim.api.nvim_create_user_command('MasonInstallAll', function()
     local servers_str = table.concat(servers, ' ')
     vim.cmd('MasonInstall ' .. servers_str)
   end, {})
+
+  -----------------------------------------------------------------------------
+  --- Markdown Oxide
+  -----------------------------------------------------------------------------
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- Use the function call form to MERGE (not replace) the config
+  vim.lsp.config('markdown_oxide', {
+    -- Ensure that dynamicRegistration is enabled! This allows the LS to take into account actions like the
+    -- Create Unresolved File code action, resolving completions for unindexed code blocks, ...
+    capabilities = vim.tbl_deep_extend('force', capabilities, {
+      workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+        },
+      },
+    }),
+  })
+  -----------------------------------------------------------------------------
+
+  vim.lsp.enable(M.servers.lsp)
 end
 
 return M

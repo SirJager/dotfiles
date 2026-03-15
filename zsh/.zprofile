@@ -61,9 +61,6 @@ export GOPATH="$mystorage/workspace/goenv"
 export GOBIN="$mystorage/workspace/goenv/bin"
 
 # # using rebos to manage it
-# export NVM_DIR="$mystorage/programs/nvm"
-# export FNM_PATH="$mystorage/programs/fnm"
-# export FNM_DIR="$mystorage/programs/fnm"
 export PNPM_HOME="/home/jager/.local/share/pnpm"
 
 export BUN_INSTALL="$mystorage/programs/bun"
@@ -79,7 +76,6 @@ export PATH="$PATH:$FNM_PATH/aliases/default/bin"
 export PATH="$PATH:$BUN_INSTALL/bin"
 export PATH="$PATH:$PNPM_HOME:$HOME/.pub-cache/bin"
 export PATH="$PATH:$mystorage/programs/node/pnpm/global/5/node_modules/grpc-tools/bin"
-
 
 # Custom Scripts Directory
 export PATH="$PATH:$HOME/.local/bin"

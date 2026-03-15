@@ -184,6 +184,7 @@ window-rule {
     match app-id="firefox$" title="^Picture-in-Picture$"
     match app-id="brave-browser$" title="^Picture-in-Picture$"
     match app-id="BeeperTexts"
+    match app-id="Bitwarden"
     open-floating true
 }
 window-rule {

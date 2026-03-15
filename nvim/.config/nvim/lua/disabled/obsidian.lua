@@ -4,6 +4,33 @@ local M = {
   version = '*',
 }
 
+M.note_frontmatter_func = function(note)
+  if note.title then
+    note:add_alias(note.title)
+  end
+  local out = { tags = note.tags or '[]', categories = '[]' }
+  if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+    for k, v in pairs(note.metadata) do
+      out[k] = v
+    end
+  end
+  -- TODO: Update frontmatter here
+  out.updated = os.date '%Y-%m-%dT%H:%M:%S.00Z'
+
+  -- NOTE: presentation types | using presenterm (aur)
+  local t = out.type
+  if t == 'presentation' or t == 'slides' or t == 'slide' or t == 'ppt' then
+    if not out.title and note.title then
+      out.title = note.title
+    end
+    if not out.author then
+      out.author = {}
+    end
+  end
+
+  return out
+end
+
 M.slugify = function(title)
   if title == nil then
     return ''
@@ -73,23 +100,6 @@ end
 M.note_path_func = function(spec)
   local path = spec.dir / tostring(spec.id)
   return path:with_suffix '.md'
-end
-
-M.note_frontmatter_func = function(note)
-  if note.title then
-    note:add_alias(note.title)
-  end
-  local out = {
-    tags = note.tags or '[]',
-    categories = '[]',
-  }
-  if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-    for k, v in pairs(note.metadata) do
-      out[k] = v
-    end
-  end
-  out.updated = os.date '%Y-%m-%dT%H:%M:%S.00Z'
-  return out
 end
 
 function M.config()

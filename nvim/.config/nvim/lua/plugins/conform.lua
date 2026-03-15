@@ -1,12 +1,14 @@
 local M = {
   'stevearc/conform.nvim',
   lazy = false,
+  dependencies = {
+    'gvvaughan/lyaml',
+  },
 }
 
 local webdev = {
   'prettierd',
   'eslint_d',
-  'biome',
   lsp_format = 'fallback',
   stop_after_first = true,
   timeout_ms = 5000,

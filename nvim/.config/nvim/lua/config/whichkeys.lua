@@ -100,10 +100,11 @@ return {
   -- NOTE: LSP & Diagnostic
   { "<leader>l", group = "[L]SP [D]iagnostic", icon = " " },
   { "<leader>lv", ":LspInfo<CR>", icon = " ", desc = "[V]erbose" },
-  { "<leader>lr", ":LspRestart<CR>", icon = " ", desc = "[R]estart" },
+  { "<leader>lx", ":LspRestart<CR>", icon = " ", desc = "[x]restart" },
   { "<leader>ld", ":Lspsaga show_workspace_diagnostics<CR>", icon = " ", desc = "[W]orkspace" },
   { "<leader>ll", ":Lspsaga show_buf_diagnostics<CR>", icon = " ", desc = "[B]uf" },
   { "<leader>lj", ":Lspsaga diagnostic_jump_next<CR>", icon = " ", desc = "[J]ump" },
+  { "<leader>lr", ":Lspsaga finder <CR>", icon = " ", desc = "[R]efrences" },
   { "<leader>lk", ":Lspsaga diagnostic_jump_prev<CR>", icon = " ", desc = "[K]Prev" },
   { "<leader>lc", ":Lspsaga show_cursor_diagnostics<CR>", icon = " ", desc = "[C]ursor" },
   { "<leader>lo", ":lua vim.diagnostic.enable(false)<CR>", icon = " ", desc = "[O]ff" },
@@ -116,8 +117,10 @@ return {
   {"<leader>ft",function()require("flash").treesitter()end,icon = " ",desc = "[T]reesitter"},
   {"<leader>fs",function()require("flash").treesitter_search()end,icon = " ",desc = "[S]earch Treesitter"},
 
+
    -- NOTE: Toggle Keys
   { "<leader>t", group = "[T]oggle", icon = "󰊹 " },
+  { "<leader>tc",function()require('stay-centered').toggle() end, icon = "󱇆", desc = "[C]entered mode" },
   { "<leader>td",function()require('snacks').toggle.dim()end, icon = "", desc = "[D]im" },
   {"<leader>ts","<CMD>ToggleSpellChecker<CR>",icon = "暈",desc = function()return "Spell Checker: " .. (vim.opt.spell:get() and "Disable" or "Enable")end},
   { "<leader>tk", "<CMD>Screenkey<CR>", icon = " ", desc = "Screen[k]eys" },

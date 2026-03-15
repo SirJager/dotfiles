@@ -47,3 +47,4 @@ for f in "$ZSH_CONFIG_DIR"/last.*.zsh(Nn); do
 done
 
 _zshrc_timer end
+

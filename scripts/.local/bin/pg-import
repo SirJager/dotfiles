@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# ──────────────────────────────────────────────
+#  pg-export – Export/Backup Postgres Database
+# ──────────────────────────────────────────────
+#
+#  Author   : Ankur Kumar (SirJager)
+#  GitHub   : https://url.ankur-kumar.in/github
+#  Version  : 1.0 
+# ──────────────────────────────────────────────
+
+
+# ──────────────────────────────────────────────
+#  SECTION 2: VARIABLE DECLARATION & DEFAULTS
+# ──────────────────────────────────────────────
+DB_NAME="${1:?database name required}"
+BACKUP_DIR="${BACKUP_DIR:-./backups}"
+TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
+
+# ──────────────────────────────────────────────
+#  SECTION 3: Initialize workspace
+# ──────────────────────────────────────────────
+mkdir -p "$BACKUP_DIR"
+
+# ──────────────────────────────────────────────
+#  SECTION 4: Main Execution
+# ──────────────────────────────────────────────
+pg_dump \
+  --dbname="$DB_NAME" \
+  --format=custom \
+  --blobs \
+  --verbose \
+  --file="$BACKUP_DIR/${DB_NAME}_${TIMESTAMP}.dump"
+

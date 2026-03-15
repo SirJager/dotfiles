@@ -27,6 +27,7 @@ _init_tools_lazy() {
   eval "$(direnv hook zsh)"
   eval "$(starship init zsh)"
   eval "$(zoxide init --cmd cd zsh)"
+  eval "$(fnm env --use-on-cd --shell zsh)"
   export LS_COLORS="$(vivid generate catppuccin-macchiato)"
   # echo -e "\e[2m✨Lazy-loaded Zsh integrations\e[0m"
   # Remove this hook after first run

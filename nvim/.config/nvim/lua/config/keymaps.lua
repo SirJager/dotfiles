@@ -13,7 +13,7 @@ local keymaps = {
     ['<C-a>'] = { 'gg<S-v>G', 'select all' }, -- select all text in current buffer
     ['<C-s>'] = { '<ESC><ESC>:w<CR>', 'save buffer' }, -- save buffers
     ['<C-w>'] = { ':bd<CR>', 'close buffer' }, -- close buffers
-    ['<C-n>'] = { '<CMD>enew<CR>', 'new buffer' }, -- new buffer
+    ['<C-n>'] = { '<CMD>new<CR>', 'new buffer' }, -- new buffer
 
     -- ['<C-h>'] = { '<CMD>KittyNavigateRight<CR>', 'KittyNavigateRight' },
     -- ['<C-j>'] = { '<CMD>KittyNavigateDown<CR>', 'KittyNavigateDown' },
@@ -39,7 +39,7 @@ local keymaps = {
     ['<A-s>l'] = { ':vsplit<CR>', 'split window right' },
     ['<A-s>j'] = { ':split<CR>', 'split window down' },
 
-    -- fast swtich tabs
+    -- fast switch tabs
     ['<A-1>'] = { '<CMD>BufferLineGoToBuffer 1<CR>', 'go to 1 buffer' },
     ['<A-2>'] = { '<CMD>BufferLineGoToBuffer 2<CR>', 'go to 2 buffer' },
     ['<A-3>'] = { '<CMD>BufferLineGoToBuffer 3<CR>', 'go to 3 buffer' },
@@ -54,13 +54,13 @@ local keymaps = {
     ['<A-a>'] = { ':Maximize<CR>', 'maximize / restore window' },
     ['<A-z>'] = { ":lua require('snacks').zen()<CR>", 'toggle zenmode' },
     ['<A-t>'] = { ':TroubleToggle<CR>', 'toggle trouble' },
-    ['<A-P>'] = { '<CMD>BufferLineTogglePin<CR>', 'toggle pin current buffer' },
+    -- ['<A-P>'] = { '<CMD>BufferLineTogglePin<CR>', 'toggle pin current buffer' },
 
     -- Markdown Preview
     ['<A-M>'] = { ':MarkdownPreviewToggle<CR>', 'toggle markdown preview' },
 
     -- Harpoon - custom autocmd
-    ['<TAB>'] = { '<CMD>HarpoonToggle<CR>', 'harpoon toogle menu' },
+    ['<TAB>'] = { '<CMD>HarpoonToggle<CR>', 'harpoon toggle menu' },
     ['<A-m>'] = { '<CMD>HarpoonMark<CR>', 'harpoon mark file' },
     ['<A-j>'] = { '<CMD>HarpoonNextMarked<CR>', 'harpoon next marked file' },
     ['<A-k>'] = { '<CMD>HarpoonPrevMarked<CR>', 'harpoon prev marked file' },
@@ -69,7 +69,13 @@ local keymaps = {
     ['<A-o>'] = { ':Outline<CR>', 'Toggle LSP Outline' },
     ['<A-u>'] = { ':BufferLinePick<CR>', 'focus any active buffers' },
     ['<A-w>'] = { ':BufferLineCloseOthers<CR>', 'close other buffers' },
-    ['<C-p>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
+    ['<C-o>'] = { ":lua require('snacks').picker.buffers({layout='ivy'})<CR>", 'active buffers' },
+
+    -- Spelling | Dictionary
+    ['<C-p>'] = { ':WhichKey z=<CR>', 'Spell suggestions for word under cursor' },
+    ['P'] = { ':WhichKey zg<CR>', 'Add word to personal dictionary' },
+    ['<A-P>'] = { ':WhichKey zw<CR>', 'Add word as misspelling' },
+
     ['<A-p>'] = { ":lua require('conform').format()<CR>", 'format without saving' },
     -- ["<A-p>"] = { ":lua vim.lsp.buf.format({timeout_ms = 5000})<CR>", "format without saving" },
 
@@ -82,7 +88,6 @@ local keymaps = {
     ['<A-e>'] = { ':Lspsaga peek_definition<CR>', 'peek definition' },
     ['<A-d>'] = { ':Lspsaga goto_definition<CR>', 'goto definition' },
     ['<A-f>'] = { ':Lspsaga code_action<CR>', 'code action' },
-
 
     ['m'] = { ":lua require('globals.utils').mark_cmd('m')<CR>", 'Set new [m]ark' },
     ['M'] = { ":lua require('globals.utils').mark_cmd('`')<CR>", 'Jump to [M]ark' },
@@ -134,6 +139,6 @@ for mode, mappings in pairs(keymaps) do
 end
 
 -- these two were not working with noremap = true
--- if noremap = true, set then movenment in editing mode dosen't work, specifically right side
+-- if noremap = true, set then movenment in editing mode doesn't work, specifically right side
 vim.api.nvim_set_keymap('n', '<A-c>', 'gcc', { silent = true, noremap = false })
 vim.api.nvim_set_keymap('v', '<A-c>', 'gcc', { silent = true, noremap = false })

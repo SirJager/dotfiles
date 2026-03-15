@@ -3,7 +3,8 @@ local M = {
   version = '*',
   event = 'VeryLazy',
   dependencies = {
-    { 'echasnovski/mini.icons' },
+    'echasnovski/mini.icons',
+    'nvim-tree/nvim-web-devicons',
   },
 }
 

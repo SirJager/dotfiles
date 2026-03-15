@@ -1,0 +1,10 @@
+[SddmGreeterTheme]
+Name=Nier Automata
+Description=A theme inspired by the ui of the game called NiER Automata.
+Author=darkkal44
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/darkkal44/sddm-themes
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=nier-automata

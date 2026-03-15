@@ -17,7 +17,15 @@ items = [
   "qutebrowser",         # Keyboard driven minial sleep browser
   "docker-buildx",       # Buildx plugin for docker 
   "luajit-tiktoken-bin", # binding of rust tiktoken to lua
+  "markdown-oxide",      # Markdown-Oxide is a Personal Knowledge Management System
+  "presenterm",          # presenterm lets you create presentations in markdown format and run them from your terminal
 ]
+
+[managers.cargo]
+items = [
+  "wiki-tui", # A simple and easy to use Wikipedia Text User Interface
+]
+
 
 [managers.serv_start]
 items = [
