@@ -3,13 +3,9 @@ local M = {
   branch = 'master',
   dependencies = {
     { 'nvzone/volt', lazy = true },
-
     { 'declancm/maximize.nvim', cmd = { 'Maximize' } },
-
     { 'RRethy/vim-illuminate', event = 'BufReadPost' },
-
     { 'echasnovski/mini.icons' },
-
     { 'j-hui/fidget.nvim' },
   },
 }

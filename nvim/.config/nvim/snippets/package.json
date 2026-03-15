@@ -1,0 +1,16 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "astro",
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+        ],
+        "path": "./typescript.json"
+      }
+    ]
+  }
+}

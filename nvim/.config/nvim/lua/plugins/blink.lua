@@ -1,30 +1,65 @@
 local M = {
   'saghen/blink.cmp',
   event = 'InsertEnter',
-  version = 'v1.7.0',
-  enabled = function()
-    return not vim.tbl_contains({}, vim.bo.filetype)
-  end,
+  version = 'v1.10.1',
   dependencies = {
-    { 'moyiz/blink-emoji.nvim', event = 'InsertEnter' },
-    { 'andersevenrud/cmp-tmux', event = 'InsertEnter' },
-    { 'mgalliou/blink-cmp-tmux', event = 'InsertEnter' },
     { 'saghen/blink.compat', event = 'InsertEnter' },
+    { 'L3MON4D3/LuaSnip', version = 'v2.*', build = 'make install_jsregexp', event = 'InsertEnter' },
     { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
     { 'roobert/tailwindcss-colorizer-cmp.nvim', event = 'InsertEnter' },
-    { 'L3MON4D3/LuaSnip', version = 'v2.*', build = 'make install_jsregexp', event = 'InsertEnter' },
-    { 'kirasok/cmp-hledger', ft = { 'ledger' } }, -- yay -S hledger
-    { 'phenax/cmp-graphql' },
+    { 'becknik/blink-cmp-luasnip-choice', event = 'InsertEnter' },
+    { 'kirasok/cmp-hledger', ft = { 'ledger' }, event = 'InsertEnter' }, -- yay -S hledger
+    { 'phenax/cmp-graphql', event = 'InsertEnter' },
+    { 'mgalliou/blink-cmp-tmux', event = 'InsertEnter' },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, event = 'InsertEnter' },
+    { 'Kaiser-Yang/blink-cmp-dictionary', event = 'InsertEnter' },
   },
+  opts_extend = { 'sources.default' },
 }
 
 M.opts = {
-  snippets = { preset = 'luasnip' },
-  appearance = {
-    nerd_font_variant = 'mono',
+  fuzzy = { implementation = 'prefer_rust_with_warning' },
+  snippets = {
+    preset = 'luasnip',
+    -- Function to use when expanding LSP provided snippets
+    expand = function(snippet)
+      vim.snippet.expand(snippet)
+    end,
+    -- Function to use when checking if a snippet is active
+    active = function(filter)
+      return vim.snippet.active(filter)
+    end,
+    -- Function to use when jumping between tab stops in a snippet, where direction can be negative or positive
+    jump = function(direction)
+      vim.snippet.jump(direction)
+    end,
+  },
+
+  appearance = { nerd_font_variant = 'mono' },
+  signature = { window = { border = 'rounded' } },
+  cmdline = {
+    enabled = true,
+    completion = { ghost_text = { enabled = false }, menu = { auto_show = true } },
   },
   completion = {
-    documentation = { window = { border = 'rounded' } },
+    ghost_text = { enabled = true },
+    trigger = {
+      prefetch_on_insert = true,
+      show_in_snippet = true,
+      show_on_backspace = false,
+      show_on_insert = false,
+    },
+    documentation = {
+      auto_show = true,
+      auto_show_delay_ms = 500,
+      treesitter_highlighting = true,
+      window = {
+        border = 'rounded',
+        min_width = 10,
+        max_width = 80,
+        max_height = 20,
+      },
+    },
     menu = {
       border = 'rounded',
       draw = {
@@ -51,66 +86,66 @@ M.opts = {
       },
     },
   },
-  signature = {
-    window = { border = 'rounded' },
-  },
 }
 
 M.opts.sources = {
-  transform_items = function(_, items)
-    return vim.tbl_filter(function(item)
-      return item.kind ~= require('blink.cmp.types').CompletionItemKind.Snippet
-    end, items)
-  end,
-
-  per_filetype = {
-    py = { 'lsp', 'codeium' },
-  },
-
   default = {
+    'snippets',
     'lsp',
     'path',
-    'copilot',
-    'codeium',
-    -- "snippets",
     'buffer',
+    'tailwindcss',
     'tmux',
+    'dadbod',
+    'dictionary',
     'hledger',
   },
   providers = {
+    snippets = {
+      name = 'snippets',
+      enabled = true,
+      max_items = 70,
+      score_offset = 100,
+      min_keyword_length = 2,
+      module = 'blink.cmp.sources.snippets',
+      override = {
+        get_trigger_characters = function(_)
+          return { ';', '#' }
+        end,
+      },
+    },
     lsp = {
       name = 'LSP',
+      enabled = true,
+      score_offset = 90,
       module = 'blink.cmp.sources.lsp',
-      opts = {}, -- Passed to the source directly, varies by source
-      enabled = true, -- Whether or not to enable the provider
-      async = true, -- Whether we should show the completions before this provider returns, without waiting for it
-      timeout_ms = 1000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
-      transform_items = nil, -- Function to transform the items before they're returned
-      should_show_items = true, -- Whether or not to show the items
-      max_items = nil, -- Maximum number of items to display in the menu
-      min_keyword_length = 0, -- Minimum number of characters in the keyword to trigger the provider
-      -- If this provider returns 0 items, it will fallback to these providers.
-      -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
-      fallbacks = {},
-      score_offset = 100, -- Boost/penalize the score of the items
-      override = nil, -- Override the source's functions
+      async = true,
     },
-    copilot = {
+    path = {
+      name = 'Path',
+      module = 'blink.cmp.sources.path',
+      score_offset = 80,
       enabled = true,
-      name = 'codeium',
-      module = 'blink.compat.source',
+      fallbacks = { 'snippets', 'buffer' },
+      opts = {
+        trailing_slash = false,
+        label_trailing_slash = true,
+        show_hidden_files_by_default = true,
+        get_cwd = function(context)
+          return vim.fn.expand(('#%d:p:h'):format(context.bufnr))
+        end,
+      },
     },
-    codeium = {
+    buffer = {
+      name = 'Buffer',
       enabled = true,
-      name = 'codeium',
-      module = 'blink.compat.source',
+      max_items = 3,
+      score_offset = 60,
+      module = 'blink.cmp.sources.buffer',
+      min_keyword_length = 2,
     },
-    hledger = {
-      enabled = true,
-      name = 'hledger',
-      module = 'blink.compat.source',
-    },
-    ['tailwindcss-colorizer-cmp'] = {
+    tailwindcss = {
+      -- tailwindcss-colorizer-cmp
       enabled = true,
       name = 'tailwindcss-colorizer-cmp',
       module = 'blink.compat.source',
@@ -119,39 +154,66 @@ M.opts.sources = {
       enabled = true,
       name = 'tmux',
       module = 'blink-cmp-tmux',
-      opts = { all_panes = true, capture_history = false, triggered_only = false },
+      opts = { panes = 'all', capture_history = false, triggered_only = false, trigger_chars = { '.' } },
+    },
+    dadbod = {
+      enabled = true,
+      name = 'Dadbod',
+      module = 'vim_dadbod_completion.blink',
+      score_offset = 85, -- the higher the number, the higher the priority
+    },
+    hledger = {
+      enabled = true,
+      name = 'hledger',
+      module = 'blink.compat.source',
+    },
+    dictionary = {
+      enabled = true,
+      name = 'Dict',
+      module = 'blink-cmp-dictionary',
+      score_offset = 10,
+      max_items = 8,
+      min_keyword_length = 3,
+      opts = {
+        dictionary_directories = { vim.fn.expand '~/dotfiles/assets/dictionaries' },
+        dictionary_files = {
+          vim.fn.expand '~/.config/nvim/spell/en.utf-8.add',
+        },
+      },
     },
   },
 }
 
--- stylua: ignore start
 M.opts.keymap = {
-  -- set to 'none' to disable the 'default' preset
-  preset = "none",
-  ["<C-space>"] = {function(cmp)cmp.show()end},
+  preset = 'none', -- set to 'none' to disable the 'default' preset
+  --
   ['<C-y>'] = { 'select_and_accept' },
   ['<C-f>'] = { 'select_and_accept' },
-  -- ['<TAB>'] = { 'select_and_accept' },
-  ["<C-e>"] = {},
-
-  ["<C-b>"] = { "select_prev"},
-  ["<C-n>"] = { "select_next" },
-  ["<C-p>"] = { "select_prev" },
-  -- ["<C-k>"] = { "select_prev" },
-  -- ["<C-j>"] = { "select_next" },
-
-  -- ['<S-k>'] = { 'scroll_documentation_up' },
-  -- ['<S-j>'] = { 'scroll_documentation_down' },
-
+  -- ['<C-i>'] = { 'snippet_forward' },
+  -- ['<C-u>'] = { 'snippet_backward' },
+  --
+  ['<C-b>'] = { 'select_prev' },
+  ['<C-n>'] = { 'select_next' },
+  -- ['<C-k>'] = { 'select_prev' },
+  -- ['<C-j>'] = { 'select_next' },
+  --
+  ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+  ['<C-o>'] = { 'scroll_documentation_up' },
+  ['<C-p>'] = { 'scroll_documentation_down' },
+  -- ['<C-h>'] = { 'scroll_documentation_up' },
+  -- ['<C-l>'] = { 'scroll_documentation_down' },
+  --
+  ['<C-e>'] = { 'hide', 'fallback' },
 }
--- stylua: ignore end
 
 M.config = function(_, opts)
   require('tailwindcss-colorizer-cmp').setup { color_square_width = 2 }
   require('cmp-graphql').setup { schema_path = 'graphql.schema.json' }
-  require('blink.cmp').setup(M.opts)
+  require('blink.cmp').setup(opts)
   require('luasnip').setup()
-  require('luasnip.loaders.from_vscode').lazy_load()
+  require('luasnip.loaders.from_vscode').lazy_load {
+    paths = { vim.fn.stdpath 'config' .. '/snippets' },
+  }
 end
 
 return M

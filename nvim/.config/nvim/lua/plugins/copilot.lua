@@ -1,8 +1,8 @@
 local M = {
   'CopilotC-Nvim/CopilotChat.nvim',
-  event = { 'BufReadPost' },
+  event = { 'InsertEnter' },
   dependencies = {
-    { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
+    'github/copilot.vim', -- or zbirenbaum/copilot.lua
   },
   build = 'make tiktoken', -- Only on MacOS or Linux
 }
@@ -17,7 +17,7 @@ M.opts = {
   temperature = 0.1, -- GPT result temperature
   headless = false, -- Do not write to chat buffer and use history (useful for using custom processing)
   stream = nil, -- Function called when receiving stream updates (returned string is appended to the chat buffer)
-  callback = nil, -- Function called when full response is received (retuned string is stored to history)
+  callback = nil, -- Function called when full response is received (returned string is stored to history)
   remember_as_sticky = true, -- Remember model/agent/context as sticky prompts when asking questions
 
   -- default window options

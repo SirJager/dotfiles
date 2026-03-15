@@ -1,10 +1,9 @@
 return {
   yaml = {
     schemastore = {
-      enable = false,
-      url = "",
+      enable = true,
     },
-    validate = { enable = false },
+    validate = { enable = true },
     schemas = require("schemastore").yaml.schemas {
       extra = {
         {
