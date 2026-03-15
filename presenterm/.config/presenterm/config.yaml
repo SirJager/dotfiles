@@ -53,9 +53,9 @@ options:
 
 transition:
   # how long the transition should last.
-  duration_millis: 400
+  duration_millis: 100
   # how many frames should be rendered during the transition
-  frames: 60
+  frames: 10
   # the animation to use
   animation:
     style: slide_horizontal
@@ -85,7 +85,7 @@ speaker_notes:
 
 bindings:
   # the keys that cause the presentation to move forwards.
-  next: ["l", "j", "<right>", "<page_down>", "<down>", " "]
+  next: ["l", "j", "<right>", "<page_down>", "<down>"]
 
   # the keys that cause the presentation to move forwards fast.
   next_fast: ["n"]
