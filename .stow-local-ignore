@@ -33,6 +33,7 @@ _darcs
 
 \assets
 \assets\*
+\assets\images
 
 # Data directory is to backup statsfile for apps and plugins like Typr(neovim plugin)
 \data
@@ -52,3 +53,18 @@ _darcs
 # shell configs
 \aliases
 \shell\aliases
+
+# Ignore assets/images
+assets/images
+
+# Data directories
+data
+
+# Static configs
+static
+
+# Encrypted files
+encrypted
+
+# Xmouseless configs
+xmouseless

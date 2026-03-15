@@ -21,18 +21,6 @@ M.opts = {
   fuzzy = { implementation = 'prefer_rust_with_warning' },
   snippets = {
     preset = 'luasnip',
-    -- Function to use when expanding LSP provided snippets
-    expand = function(snippet)
-      vim.snippet.expand(snippet)
-    end,
-    -- Function to use when checking if a snippet is active
-    active = function(filter)
-      return vim.snippet.active(filter)
-    end,
-    -- Function to use when jumping between tab stops in a snippet, where direction can be negative or positive
-    jump = function(direction)
-      vim.snippet.jump(direction)
-    end,
   },
 
   appearance = { nerd_font_variant = 'mono' },
@@ -105,8 +93,8 @@ M.opts.sources = {
       name = 'snippets',
       enabled = true,
       max_items = 70,
-      score_offset = 100,
-      min_keyword_length = 2,
+      score_offset = 1000,
+      min_keyword_length = 0,
       module = 'blink.cmp.sources.snippets',
       override = {
         get_trigger_characters = function(_)
@@ -117,7 +105,7 @@ M.opts.sources = {
     lsp = {
       name = 'LSP',
       enabled = true,
-      score_offset = 90,
+      score_offset = 100,
       module = 'blink.cmp.sources.lsp',
       async = true,
     },

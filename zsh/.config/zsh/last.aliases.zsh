@@ -110,6 +110,7 @@ alias nb="NVIM_APPNAME=BlazeVim nvim"
 alias nj="NVIM_APPNAME=JagerVim nvim"
 alias vi="nvim"
 alias snv="sudo -E -s nvim"
+alias nvim-clear-state="rm ~/.local/state/nvim/shada/main.shada"
 
 # Applications
 alias obsidian="command obsidian --enable-features=UseOzonePlatform --ozone-platform=wayland"

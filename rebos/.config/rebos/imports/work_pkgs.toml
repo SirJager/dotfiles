@@ -19,6 +19,7 @@ items = [
   "luajit-tiktoken-bin", # binding of rust tiktoken to lua
   "markdown-oxide",      # Markdown-Oxide is a Personal Knowledge Management System
   "presenterm",          # presenterm lets you create presentations in markdown format and run them from your terminal
+  "mermaid-cli",         # required by presenterm to show mermaid diagrams
 ]
 
 [managers.cargo]

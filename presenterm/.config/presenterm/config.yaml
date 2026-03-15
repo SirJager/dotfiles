@@ -1,13 +1,25 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mfontanini/presenterm/master/config-file-schema.json
+
 defaults:
-  # override the terminal font size when in windows or when using sixel.
-  terminal_font_size: 16
+  terminal_font_size: 20
+  validate_overflows: when_presenting
+  theme:
+    terminal-dark
+    # catppuccin-frappe
+    # catppuccin-latte
+    # catppuccin-macchiato
+    # catppuccin-mocha
+    # dark
+    # gruvbox-dark
+    # light
+    # terminal-dark
+    # terminal-light
+    # tokyonight-day
+    # tokyonight-moon
+    # tokyonight-night
+    # tokyonight-storm
 
-  # the theme to use by default in every presentation unless overridden.
-  theme: dark
-
-  # the image protocol to use.
   image_protocol: kitty-local
 
 typst:
@@ -29,7 +41,7 @@ options:
   command_prefix: ""
 
   # show all lists incrementally, by implicitly adding pauses in between elements.
-  incremental_lists: false
+  incremental_lists: true
 
   # this option tells presenterm you don't care about extra parameters in
   # presentation's front matter. This can be useful if you're trying to load a
@@ -38,6 +50,15 @@ options:
 
   # whether to treat a thematic break as a slide end.
   end_slide_shorthand: true
+
+transition:
+  # how long the transition should last.
+  duration_millis: 400
+  # how many frames should be rendered during the transition
+  frames: 60
+  # the animation to use
+  animation:
+    style: slide_horizontal
 
 snippet:
   exec:
@@ -60,7 +81,7 @@ speaker_notes:
   publish_address: "127.0.0.1:59418"
 
   # Whether to always publish speaker notes even when `--publish-speaker-notes` is not set.
-  always_publish: false
+  always_publish: true
 
 bindings:
   # the keys that cause the presentation to move forwards.
@@ -73,7 +94,7 @@ bindings:
   previous: ["h", "k", "<left>", "<page_up>", "<up>"]
 
   # the keys that cause the presentation to move backwards fast
-  previous_fast: ["p"]
+  previous_fast: ["p", "b"]
 
   # the key binding to jump to the first slide.
   first_slide: ["gg"]
