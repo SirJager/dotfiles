@@ -78,8 +78,8 @@ M.opts = {
 
 M.opts.sources = {
   default = {
-    'snippets',
     'lsp',
+    'snippets',
     'path',
     'buffer',
     'tailwindcss',
@@ -89,11 +89,19 @@ M.opts.sources = {
     'hledger',
   },
   providers = {
+    lsp = {
+      name = 'LSP',
+      enabled = true,
+      score_offset = 100,
+      module = 'blink.cmp.sources.lsp',
+      async = true,
+    },
+
     snippets = {
       name = 'snippets',
       enabled = true,
       max_items = 70,
-      score_offset = 1000,
+      score_offset = 85,
       min_keyword_length = 0,
       module = 'blink.cmp.sources.snippets',
       override = {
@@ -101,13 +109,6 @@ M.opts.sources = {
           return { ';', '#' }
         end,
       },
-    },
-    lsp = {
-      name = 'LSP',
-      enabled = true,
-      score_offset = 100,
-      module = 'blink.cmp.sources.lsp',
-      async = true,
     },
     path = {
       name = 'Path',

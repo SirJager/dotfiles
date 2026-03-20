@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 # IMPORTANT: =======[ Read More in ~/.config/zsh/zlewrapper.zsh for custom keybindings ]========
 
 # =================================================================================================================================
@@ -29,7 +29,7 @@ function _cdup() { cd "$(printf '../%.0s' $(seq "${1:-1}"))" || return 1; } # us
 
 
 # =================================================================================================================================
-# Reproducable package management using rebos : gitlab.com/Oglo12/rebos
+# Reproducible package management using rebos : gitlab.com/Oglo12/rebos
 function _rebosListGen() {
   file="$HOME/.config/rebos/machines/$(hostname)/gen.toml"
     awk '
@@ -222,18 +222,29 @@ function _rebosRemovePkg() {
 
 
 # =================================================================================================================================
-function clone() {
-  [ -z "$1" ] && exit 1
-  u="$1"
-  [[ "$u" != http* ]] && u="https://github.com/$u"
-  if [ -z "$2" ]; then
-    dir="$(basename "$u")"
-  elif [ "$2" = "." ]; then
-    dir="."
-  else
-    dir="$2"
-  fi
-  git clone "$u" "$dir"
+function clone () {
+	[ -z "$1" ] && exit 1
+	u="$1"
+
+	if [[ "$u" != http* && "$u" != git@* ]]; then
+		owner="${u%%/*}"
+
+		if [ "${owner:l}" = "sirjager" ]; then
+			u="git@github.com:$u.git"
+		else
+			u="https://github.com/$u"
+		fi
+	fi
+
+	if [ -z "$2" ]; then
+		dir="$(basename "$u" .git)"
+	elif [ "$2" = "." ]; then
+		dir="."
+	else
+		dir="$2"
+	fi
+
+	git clone "$u" "$dir"
 }
 # =================================================================================================================================
 

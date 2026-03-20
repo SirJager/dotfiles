@@ -20,6 +20,7 @@ items = [
   "markdown-oxide",      # Markdown-Oxide is a Personal Knowledge Management System
   "presenterm",          # presenterm lets you create presentations in markdown format and run them from your terminal
   "mermaid-cli",         # required by presenterm to show mermaid diagrams
+  "postman-bin",         # Postman is an HTTP client used to build, test, and modify APIs.
 ]
 
 [managers.cargo]

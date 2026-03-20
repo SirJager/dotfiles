@@ -31,6 +31,7 @@ M.opts = {
     trim_right = '>',
   },
 
+  -- https://github.com/nvim-mini/mini.nvim/blob/main/readmes/mini-files.md#default-config
   options = {
     -- - Delete file or directory by deleting **whole line** describing it.
     -- - If `options.permanent_delete` is `true`, delete is permanent. Otherwise
