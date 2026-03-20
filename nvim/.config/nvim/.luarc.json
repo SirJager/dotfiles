@@ -1,0 +1,13 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "require",
+        "spec",
+        "bit",
+        "it",
+        "describe",
+        "before_each",
+        "after_each",
+        "os"
+    ]
+}

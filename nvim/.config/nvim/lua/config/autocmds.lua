@@ -65,14 +65,11 @@ autocmd({ 'BufEnter', 'BufWinEnter', 'FileType' }, {
   callback = function(args)
     local ft_disabled = { 'mdx', 'lua', 'typescript', 'javascript' }
     local ft_enabled = {}
-
     local ft = vim.bo[args.buf].filetype
-
     if vim.tbl_contains(ft_disabled, ft) then
       vim.wo.spell = false
       return
     end
-
     if #ft_enabled > 0 then
       vim.wo.spell = vim.tbl_contains(ft_enabled, ft)
     end
@@ -85,29 +82,19 @@ autocmd('BufWritePre', {
     local bufnr = args.buf
     local yaml = require 'utils.yaml'
     local fm, end_line = yaml.parse(bufnr)
-    local now = os.date '%Y-%m-%dT%H:%M:%S.00Z'
+    local modifided = false
 
     --- updated
     if fm.updated then
+      local now = os.date '%Y-%m-%dT%H:%M:%S.00Z'
       fm.updated = now
+      modifided = true
     end
 
-    if fm.date then
-      fm.date = now
+    if modifided then
+      yaml.write(bufnr, fm, end_line)
+      -- local fm_type = fm.type and string.lower(fm.type) or nil
+      -- vim.notify('schema type found: ' .. fm_type, vim.log.levels.INFO, { title = 'Frontmatter Updated' })
     end
-
-    -- type: presentation
-    if vim.tbl_contains({ 'presentation', 'slides', 'slide', 'ppt' }, fm.type) then
-      if not fm.title or fm.title == '' then
-        fm.title = 'Write a short title'
-      end
-
-      if not fm.authors then
-        fm.authors = {}
-      end
-    end
-
-    yaml.write(bufnr, fm, end_line)
-    vim.notify('Frontmatter updated', vim.log.levels.INFO, { title = 'AutoCMD: Markdown' })
   end,
 })

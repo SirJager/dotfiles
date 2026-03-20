@@ -11,17 +11,18 @@ return {
   -- { "<leader>ms", "q", icon = " ", desc = "Finish Record" },
   -- { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
 
-  -- NOTE: Obsidian
-  { "<leader>o", group = "[O]bsidian", icon = " " },
-  { "<leader>od", "<CMD>ObsidianFollowLink<CR>", icon = " ", desc = "[F]llow Link" },
-  { "<leader>ot", "<CMD>ObsidianTags<CR>", icon = " ", desc = "[T]ags List" },
-  { "<leader>oo", "<CMD>ObsidianQuickSwitch<CR>", icon = " ", desc = "[O]pen Markdown" },
-  { "<leader>ob", "<CMD>ObsidianBacklinks<CR>", icon = "󰿨 ", desc = "[B]ack Links" },
-  { "<leader>ol", "<CMD>ObsidianLinks<CR>", icon = "󰿨 ", desc = "[L]inks List" },
-  { "<leader>os", "<CMD>ObsidianSearch<CR>", icon = "󱎸 ", desc = "[S]earch Markdown" },
-  { "<leader>oc", ":lua require'obsidian'.util.toggle_checkbox()<CR>", icon = " ", desc = "[C]heck Box" },
-  { "<leader>oa", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
-  { "<leader>ov", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
+  -- NOTE: Markdown | Obsidian
+  { "<leader>m", group = "[M]arkdown", icon = " " },
+  { "<leader>md", "<CMD>ObsidianFollowLink<CR>", icon = " ", desc = "[F]llow Link" },
+  { "<leader>mt", "<CMD>ObsidianTags<CR>", icon = " ", desc = "[T]ags List" },
+  { "<leader>mo", "<CMD>ObsidianQuickSwitch<CR>", icon = " ", desc = "[O]pen Markdown" },
+  { "<leader>mb", "<CMD>ObsidianBacklinks<CR>", icon = "󰿨 ", desc = "[B]ack Links" },
+  { "<leader>ml", "<CMD>ObsidianLinks<CR>", icon = "󰿨 ", desc = "[L]inks List" },
+  { "<leader>ms", "<CMD>ObsidianSearch<CR>", icon = "󱎸 ", desc = "[S]earch Markdown" },
+  { "<leader>mc", ":lua require'obsidian'.util.toggle_checkbox()<CR>", icon = " ", desc = "[C]heck Box" },
+  { "<leader>ma", ":lua require'obsidian'.util.smart_action()<CR>", icon = " ", desc = "[A]ction Smart" },
+  { "<leader>mv", "<CMD>ObsidianDebug<CR>", icon = " ", desc = "[V]erbose Obisidian" },
+  { "<leader>ma", function() require('globals.functions').markdown_frontmatter() end, icon = " ", desc = "[A]pply Schema" },
 
   -- NOTE: Base
   { "<leader>b", group = "[B]ase", icon = "" },
@@ -141,11 +142,11 @@ return {
   -- { "<leader>tss", ":LiveServerStop<CR>", icon = " ", desc = "[S]top Live Server" },
 
   -- Marks
-  { "<leader>m", group = "[M]ark", icon = "󱘈" },
-  {"<leader>mm",":lua require('globals.utils').mark_cmd('m')<CR>",icon = " ",desc = "Set new [m]ark"},
-  {"<leader>mM",":lua require('globals.utils').mark_cmd('`')<CR>",icon = "󰓘 ",desc = "Jump to [M]ark"},
-  {"<leader>md",":lua require('globals.utils').mark_cmd('delmarks')<CR>",icon = "󰆴 ",desc = "Delete [M]ark"},
-  {"<leader>mx","lua require('globals.utils').mark_cmd('delmarks!')<CR>",icon = "󰗩 ",desc = "Delete all [M]arks"},
+  -- { "<leader>m", group = "[M]ark", icon = "󱘈" },
+  -- {"<leader>mm",":lua require('globals.utils').mark_cmd('m')<CR>",icon = " ",desc = "Set new [m]ark"},
+  -- {"<leader>mM",":lua require('globals.utils').mark_cmd('`')<CR>",icon = "󰓘 ",desc = "Jump to [M]ark"},
+  -- {"<leader>md",":lua require('globals.utils').mark_cmd('delmarks')<CR>",icon = "󰆴 ",desc = "Delete [M]ark"},
+  -- {"<leader>mx","lua require('globals.utils').mark_cmd('delmarks!')<CR>",icon = "󰗩 ",desc = "Delete all [M]arks"},
 
 
   -- Ai 

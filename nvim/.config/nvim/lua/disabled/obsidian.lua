@@ -4,7 +4,7 @@ local M = {
   version = '*',
 }
 
-M.note_frontmatter_func = function(note)
+M.old_note_frontmatter_func = function(note)
   if note.title then
     note:add_alias(note.title)
   end
@@ -27,6 +27,97 @@ M.note_frontmatter_func = function(note)
       out.author = {}
     end
   end
+
+  return out
+end
+
+M.note_frontmatter_func = function(note)
+  local fm = {}
+
+  -- base
+  fm.tags = note.tags or '[]'
+  fm.categories = '[]'
+
+  -- merge metadata
+  if note.metadata and not vim.tbl_isempty(note.metadata) then
+    for k, v in pairs(note.metadata) do
+      fm[k] = v
+    end
+  end
+
+  -- updated timestamp
+  fm.updated = os.date '%Y-%m-%dT%H:%M:%S.00Z'
+
+  -- presentation tweaks
+  local t = fm.type
+  if t == 'presentation' or t == 'slides' or t == 'slide' or t == 'ppt' then
+    if not fm.title and note.title then
+      fm.title = note.title
+    end
+    if not fm.author then
+      fm.author = {}
+    end
+  end
+
+  -- ordering
+  local first = { 'type', 'title' }
+  local last = { 'updated', 'date' }
+
+  local fixed = {
+    type = true,
+    title = true,
+    updated = true,
+    date = true,
+  }
+
+  local function format(k, v)
+    if v == nil or v == '' then
+      return k .. ': ""'
+    end
+
+    if type(v) == 'string' then
+      v = vim.fn.json_encode(v):gsub('^"(.*)"$', '%1')
+      return k .. ': ' .. v
+    end
+
+    if type(v) == 'table' then
+      if vim.tbl_isempty(v) then
+        return k .. ': []'
+      end
+      return k .. ': ' .. vim.fn.json_encode(v)
+    end
+
+    return k .. ': ' .. tostring(v)
+  end
+
+  -- collect + sort all keys
+  local keys = vim.tbl_keys(fm)
+  table.sort(keys)
+
+  local out = { '---' }
+
+  -- first
+  for _, k in ipairs(first) do
+    if fm[k] ~= nil then
+      table.insert(out, format(k, fm[k]))
+    end
+  end
+
+  -- middle
+  for _, k in ipairs(keys) do
+    if not fixed[k] then
+      table.insert(out, format(k, fm[k]))
+    end
+  end
+
+  -- last
+  for _, k in ipairs(last) do
+    if fm[k] ~= nil then
+      table.insert(out, format(k, fm[k]))
+    end
+  end
+
+  table.insert(out, '---')
 
   return out
 end
