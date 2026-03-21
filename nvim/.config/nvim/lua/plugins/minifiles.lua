@@ -8,6 +8,21 @@ local M = {
   },
 }
 
+local MiniFiles = {
+  show_all = false,
+  -- patterns to hide (lua patterns)
+  hide_patterns = {
+    '^%..*', -- dotfiles
+    '^node_modules$',
+    '^%.cache$',
+    '^%.settings$',
+    '^%.git$',
+    '^%.gitignore$',
+    '^pnpm-lock.yaml$',
+    '^bun.lock$',
+  },
+}
+
 M.opts = {
   content = {
     filter = nil,
@@ -52,9 +67,49 @@ M.opts = {
   },
 }
 
-M.config = function(_, opts)
+MiniFiles.should_hide = function(name)
+  for _, pattern in ipairs(MiniFiles.hide_patterns) do
+    if name:match(pattern) then
+      return true
+    end
+  end
+  return false
+end
+
+MiniFiles.filter_hide = function(fs_entry)
+  return not MiniFiles.should_hide(fs_entry.name)
+end
+
+MiniFiles.filter_show = function()
+  return true
+end
+
+MiniFiles.toggle_hidden = function()
+  MiniFiles.show_all = not MiniFiles.show_all
+  local minifiles = require 'mini.files'
+  minifiles.refresh {
+    content = {
+      filter = MiniFiles.show_all and MiniFiles.filter_show or MiniFiles.filter_hide,
+    },
+  }
+end
+
+M.config = function(_, _opts)
   require('mini.icons').setup {}
-  require('mini.files').setup(opts)
+  local minifiles = require 'mini.files'
+  local opts = vim.tbl_deep_extend('force', _opts or {}, {
+    content = {
+      filter = MiniFiles.filter_hide,
+    },
+  })
+  minifiles.setup(opts)
+
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'MiniFilesBufferCreate',
+    callback = function(args)
+      vim.keymap.set('n', 'g.', MiniFiles.toggle_hidden, { buffer = args.data.buf_id })
+    end,
+  })
 end
 
 return M

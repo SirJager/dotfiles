@@ -2,8 +2,8 @@
 #    Package Manager Configuration    #
 # ----------------------------------- #
 
-add = "pnpm add #:?"
-remove = "pnpm remove #:?"
+add = "pnpm add -g #:?"
+remove = "pnpm remove -g #:?"
 
 plural_name = "node packages"
 
