@@ -17,6 +17,8 @@ end
 local always_show_patterns = {
   '^%.local$',
   '^%.config$',
+  '^%.env$',
+  '^%.env*$',
 }
 
 local hide_patterns = {
