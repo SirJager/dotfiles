@@ -24,13 +24,13 @@ items = [
   #add-user-pkgs-here
   "lutris",
   "appimagelauncher",
-  "visual-studio-code-bin",
   "light",
   "qbittorrent",
   "obsidian",
   "vlc",
   "pamac-aur",
   "mpv",
+
 
   #add-utils-pkgs-here
 

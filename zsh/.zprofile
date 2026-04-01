@@ -16,7 +16,7 @@ fi
 
 # Global Environment Variables
 export GPG_TTY="$(tty)"
-export EDITOR="NVIM_APPNAME=JagerVim nvim"
+export EDITOR="nvim"
 export DIRENV_LOG_FORMAT=""
 export TERMINAL="kitty"
 export BROWSER="brave"

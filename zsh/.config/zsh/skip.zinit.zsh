@@ -13,9 +13,15 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light Aloxaf/fzf-tab
+# zinit light jscutlery/nx-completion
+zinit light grigorii-zander/zsh-npm-scripts-autocomplete
+
 
 # Add snippets:
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 
+plugins=(
+  zsh-npm-scripts-autocomplete
+)

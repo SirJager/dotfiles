@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 # =====================================================================
 # Lazy Load Configurations for Zsh
 # ---------------------------------------------------------------------
@@ -60,14 +60,16 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -h --long --all --sort=name --i
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'exa -h --long --all --sort=name --icons'
 
 # Add custom completions
-fpath=(~/.local/bin/completions $fpath)
+fpath=(~/.local/bin/completions ~/.config/zsh/completions $fpath)
 
-# Use cached compinit
-autoload -Uz compinit
-compinit -C
+# Safer and secure (Slower loads)
+autoload -U compinit && compinit
+
+# Use cached compinit (Faster loads)
+# autoload -Uz compinit
+# compinit -C
 
 # Carapace completions
 source <(carapace _carapace)
-
 
 

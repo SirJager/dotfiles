@@ -14,8 +14,6 @@ export mydocuments="$mystorage/downloads/Documents"
 export mywallpapers="$mystorage/wallpaper"
 export myscripts="$mydotfiles/scripts/.local/bin"
 
-
-
 # XDG Directories
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -75,4 +73,4 @@ export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME \
     SCREENRC HISTFILE
 
 
-
+export EDITOR="nvim"

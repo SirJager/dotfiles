@@ -4,23 +4,26 @@
 
 [managers.packages]
 items = [
-  "go",                  # Golang
-  "sqlit",               # A user friendly TUI for SQL databases.
-  "github-cli",          # Github cli
-  "migrate",             # Migrate package for database migration with sql files
-  "fnm",                 # Fast and simple node version manaager
-  "serpl",               # Search and Replace through terminal
-  "docker",              # Containerization platform
-  "docker-compose",      # Tool for defining and running multi-container Docker apps
-  "gpu-screen-recorder", # Screen Recording 
-  "slurp",               # Region Selection: for region recording
-  "qutebrowser",         # Keyboard driven minial sleep browser
-  "docker-buildx",       # Buildx plugin for docker 
-  "luajit-tiktoken-bin", # binding of rust tiktoken to lua
-  "markdown-oxide",      # Markdown-Oxide is a Personal Knowledge Management System
-  "presenterm",          # presenterm lets you create presentations in markdown format and run them from your terminal
-  "mermaid-cli",         # required by presenterm to show mermaid diagrams
-  "postman-bin",         # Postman is an HTTP client used to build, test, and modify APIs.
+  "go",                     # Golang
+  "sqlit",                  # A user friendly TUI for SQL databases.
+  "github-cli",             # Github cli
+  "migrate",                # Migrate package for database migration with sql files
+  "fnm",                    # Fast and simple node version manaager
+  "serpl",                  # Search and Replace through terminal
+  "docker",                 # Containerization platform
+  "docker-compose",         # Tool for defining and running multi-container Docker apps
+  "gpu-screen-recorder",    # Screen Recording 
+  "slurp",                  # Region Selection: for region recording
+  "qutebrowser",            # Keyboard driven minial sleep browser
+  "docker-buildx",          # Buildx plugin for docker 
+  "luajit-tiktoken-bin",    # binding of rust tiktoken to lua
+  "markdown-oxide",         # Markdown-Oxide is a Personal Knowledge Management System
+  "presenterm",             # presenterm lets you create presentations in markdown format and run them from your terminal
+  "mermaid-cli",            # required by presenterm to show mermaid diagrams
+  "postman-bin",            # Postman is an HTTP client used to build, test, and modify APIs.
+  'visual-studio-code-bin', # Visual studio code
+  "sesh-bin",               # Sesh is a CLI that helps you create and manage tmux sessions quickly and easily using zoxide.
+  "television",             # Television is a fast, portable and hackable fuzzy finder for the terminal.
 ]
 
 [managers.cargo]
@@ -31,7 +34,8 @@ items = [
 
 [managers.node_pkgs]
 items = [
-  "nx", # Nx is a build system for monorepos. It helps you develop faster and keep CI fast as your codebase scales.
+  "nx",    # Nx is a build system for monorepos. It helps you develop faster and keep CI fast as your codebase scales.
+  "turbo", # Turborepo is the build system for JavaScript and TypeScript codebases
 ]
 
 

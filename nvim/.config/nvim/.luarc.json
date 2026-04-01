@@ -9,5 +9,11 @@
         "before_each",
         "after_each",
         "os"
+    ],
+    "diagnostics.disable": [
+        "incomplete-signature-doc",
+        "trailing-space",
+        "no-unknown",
+        "undefined-field"
     ]
 }

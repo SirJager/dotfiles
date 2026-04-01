@@ -86,6 +86,20 @@ layer-rule {
     place-within-backdrop true
 }
 //==============================================================================
+// Overview
+//==============================================================================
+overview {
+    zoom 0.55
+    backdrop-color "#262626"
+    workspace-shadow {
+        // off
+        softness 40
+        spread 10
+        offset x=0 y=10
+        color "#00000050"
+    }
+}
+//==============================================================================
 // Niri Layouts
 //==============================================================================
 layout {
@@ -98,6 +112,13 @@ layout {
     }
     default-column-width {
         proportion 0.7
+    }
+    // layout ppadding
+    struts {
+        left 8
+        right 8
+        top 8
+        bottom 8
     }
     focus-ring {
         //::toggle::focus-ring

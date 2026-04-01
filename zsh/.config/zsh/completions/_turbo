@@ -1,0 +1,1845 @@
+#compdef turbo
+
+autoload -U is-at-least
+
+_turbo() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'(--force --remote-only --remote-cache-read-only --no-cache)--cache=[Set the cache behavior for this run. Pass a list of comma-separated key, value pairs to enable reading and writing to either the local or remote cache]:CACHE: ' \
+'--force=[Ignore the existing cache (to force execution). Equivalent to \`--cache=local\:w,remote\:w\`]' \
+'--remote-only=[Ignore the local filesystem cache for all tasks. Only allow reading and caching artifacts using the remote cache. Equivalent to \`--cache=remote\:rw\`]' \
+'--remote-cache-read-only=[Treat remote cache as read only. Equivalent to \`--cache=remote\:r;local\:rw\`]' \
+'--cache-workers=[Set the number of concurrent cache operations (default 10)]:CACHE_WORKERS: ' \
+'--dry-run=[]' \
+'--graph=[Generate a graph of the task execution and output to a file when a filename is specified (.svg, .html, .mermaid, .dot). Outputs dot graph to stdout when no filename is provided. \[DEPRECATED formats\: .png, .jpg, .pdf, .json -- will be removed in 3.0\]]' \
+'(--anon-profile)--profile=[File to write turbo'\''s performance profile output into. You can load the file up in chrome\://tracing to see which parts of your build were slow]' \
+'(--profile)--anon-profile=[File to write turbo'\''s performance profile output into. All identifying data omitted from the profile]' \
+'--summarize=[Generate a summary of the turbo run]' \
+'--cache-dir=[Override the filesystem cache directory]:CACHE_DIR: ' \
+'--concurrency=[Limit the concurrency of task execution. Use 1 for serial (i.e. one-at-a-time) execution]:CONCURRENCY: ' \
+'--continue=[Specify how task execution should proceed when an error occurs. Use "never" to cancel all tasks. Use "dependencies-successful" to continue running tasks whose dependencies have succeeded. Use "always" to continue running all tasks, even those whose dependencies have failed]' \
+'--framework-inference=[Specify whether or not to do framework inference for tasks]' \
+'*--global-deps=[Specify glob of global filesystem dependencies to be hashed. Useful for .env and files]:GLOBAL_DEPS: ' \
+'--env-mode=[Environment variable mode. Use "loose" to pass the entire existing environment. Use "strict" to use an allowlist specified in turbo.json]' \
+'*-F+[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'*--filter=[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'--output-logs=[Set type of process output logging. Use "full" to show all output. Use "hash-only" to show only turbo-computed task hashes. Use "new-only" to show only new output with only hashes for cached tasks. Use "none" to hide process output. (default full)]:OUTPUT_LOGS:((full\:"Displays all output"
+none\:"Hides all task output"
+hash-only\:"Show only the hashes of the tasks"
+new-only\:"Only show output from cache misses"
+errors-only\:"Only show output from task failures"))' \
+'--log-order=[Set type of task output order. Use "stream" to show output as soon as it is available. Use "grouped" to show output when a command has finished execution. Use "auto" to let turbo decide based on its own heuristics. (default auto)]:LOG_ORDER:(auto stream grouped)' \
+'--pkg-inference-root=[]:PKG_INFERENCE_ROOT: ' \
+'--log-prefix=[Use "none" to remove prefixes from task logs. Use "task" to get task id prefixing. Use "auto" to let turbo decide how to prefix the logs based on the execution environment. In most cases this will be the same as "task". Note that tasks running in parallel interleave their logs, so removing prefixes can make it difficult to associate logs with tasks. Use --log-order=grouped to prevent interleaving. (default auto)]:LOG_PREFIX:(auto none task)' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'--no-cache[Avoid saving task results to the cache. Useful for development/watch tasks. Equivalent to \`--cache=local\:r,remote\:r\`]' \
+'--daemon[\[DEPRECATED\] The daemon is no longer used for \`turbo run\`. This flag will be removed in version 3.0]' \
+'--no-daemon[\[DEPRECATED\] The daemon is no longer used for \`turbo run\`. This flag will be removed in version 3.0]' \
+'--parallel[\[DEPRECATED\] Execute all tasks in parallel. Use task configuration (\`persistent\`, \`with\`) instead]' \
+'--single-package[Run turbo in single-package mode]' \
+'(-F --filter)--affected[Filter to only packages that are affected by changes between the current branch and \`main\`]' \
+'--only[Only executes the tasks specified, does not execute parent tasks]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'::tasks:' \
+'::pass_through_args:' \
+":: :_turbo_commands" \
+"*::: :->turbo" \
+&& ret=0
+    case $state in
+    (turbo)
+        words=($line[3] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:turbo-command-$line[3]:"
+        case $line[3] in
+            (bin)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(get-mfe-port)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(boundaries)
+_arguments "${_arguments_options[@]}" : \
+'*-F+[]:FILTER: ' \
+'*--filter=[]:FILTER: ' \
+'--ignore=[]' \
+'--reason=[]:REASON: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(completion)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+':shell:(bash elvish fish powershell zsh)' \
+&& ret=0
+;;
+(daemon)
+_arguments "${_arguments_options[@]}" : \
+'--idle-time=[Set the idle timeout for turbod]:IDLE_TIME: ' \
+'--turbo-json-path=[Path to a custom turbo.json file to watch from --root-turbo-json]:TURBO_JSON_PATH: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+":: :_turbo__daemon_commands" \
+"*::: :->daemon" \
+&& ret=0
+
+    case $state in
+    (daemon)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:turbo-daemon-command-$line[1]:"
+        case $line[1] in
+            (restart)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(start)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--json[Pass --json to report status in JSON format]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(clean)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--clean-logs[Clean]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(logs)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(devtools)
+_arguments "${_arguments_options[@]}" : \
+'--port=[Port for the WebSocket server]:PORT: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--no-open[Don'\''t automatically open the browser]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(docs)
+_arguments "${_arguments_options[@]}" : \
+'--docs-version=[Override the docs version (minimum\: 2.7.5)]:DOCS_VERSION: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+':query -- The search query:' \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+'--tag=[]:TAG: ' \
+'-c+[Generator configuration file]:CONFIG: ' \
+'--config=[Generator configuration file]:CONFIG: ' \
+'-r+[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'--root=[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'*-a+[Answers passed directly to generator]:ARGS: ' \
+'*--args=[Answers passed directly to generator]:ARGS: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'::generator_name -- The name of the generator to run:' \
+":: :_turbo__generate_commands" \
+"*::: :->generate" \
+&& ret=0
+
+    case $state in
+    (generate)
+        words=($line[2] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:turbo-generate-command-$line[2]:"
+        case $line[2] in
+            (workspace)
+_arguments "${_arguments_options[@]}" : \
+'-n+[Name for the new workspace]:NAME: ' \
+'--name=[Name for the new workspace]:NAME: ' \
+'(-b --empty)-c+[Generate a workspace using an existing workspace as a template. Can be the name of a local workspace within your monorepo, or a fully qualified GitHub URL with any branch and/or subdirectory]' \
+'(-b --empty)--copy=[Generate a workspace using an existing workspace as a template. Can be the name of a local workspace within your monorepo, or a fully qualified GitHub URL with any branch and/or subdirectory]' \
+'-d+[Where the new workspace should be created]:DESTINATION: ' \
+'--destination=[Where the new workspace should be created]:DESTINATION: ' \
+'-t+[The type of workspace to create]:TYPE: ' \
+'--type=[The type of workspace to create]:TYPE: ' \
+'-r+[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'--root=[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'-p+[In a rare case, your GitHub URL might contain a branch name with a slash (e.g. bug/fix-1) and the path to the example (e.g. foo/bar). In this case, you must specify the path to the example separately\: --example-path foo/bar]:EXAMPLE_PATH: ' \
+'--example-path=[In a rare case, your GitHub URL might contain a branch name with a slash (e.g. bug/fix-1) and the path to the example (e.g. foo/bar). In this case, you must specify the path to the example separately\: --example-path foo/bar]:EXAMPLE_PATH: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'(-c --copy)-b[Generate an empty workspace]' \
+'(-c --copy)--empty[Generate an empty workspace]' \
+'--show-all-dependencies[Do not filter available dependencies by the workspace type]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(run)
+_arguments "${_arguments_options[@]}" : \
+'-c+[Generator configuration file]:CONFIG: ' \
+'--config=[Generator configuration file]:CONFIG: ' \
+'-r+[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'--root=[The root of your repository (default\: directory with root turbo.json)]:ROOT: ' \
+'*-a+[Answers passed directly to generator]:ARGS: ' \
+'*--args=[Answers passed directly to generator]:ARGS: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'::generator_name -- The name of the generator to run:' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(telemetry)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+":: :_turbo__telemetry_commands" \
+"*::: :->telemetry" \
+&& ret=0
+
+    case $state in
+    (telemetry)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:turbo-telemetry-command-$line[1]:"
+        case $line[1] in
+            (enable)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(disable)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(scan)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(ls)
+_arguments "${_arguments_options[@]}" : \
+'*-F+[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'*--filter=[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'--output=[Output format]:OUTPUT:((pretty\:"Output in a human-readable format"
+json\:"Output in JSON format for direct parsing"))' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--affected[Show only packages that are affected by changes between the current branch and \`main\`]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::packages -- Get insight into a specific package, such as its dependencies and tasks:' \
+&& ret=0
+;;
+(link)
+_arguments "${_arguments_options[@]}" : \
+'--scope=[The scope, i.e. Vercel team, to which you are linking]:SCOPE: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--no-gitignore[Do not create or modify .gitignore (default false)]' \
+'-y[Answer yes to all prompts (default false)]' \
+'--yes[Answer yes to all prompts (default false)]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(login)
+_arguments "${_arguments_options[@]}" : \
+'--sso-team=[]:SSO_TEAM: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'-f[Force a login to receive a new token. Will overwrite any existing tokens for the given login url]' \
+'--force[Force a login to receive a new token. Will overwrite any existing tokens for the given login url]' \
+'(--sso-team)--manual[Manually enter token instead of requesting one from the login service]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(logout)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--invalidate[Invalidate the token on the server]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(info)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(prune)
+_arguments "${_arguments_options[@]}" : \
+'*--scope=[DEPRECATED\: Use positional arguments instead (e.g. \`turbo prune web\`)]:SCOPE: ' \
+'--out-dir=[]:OUTPUT_DIR: ' \
+'--use-gitignore=[Respect \`.gitignore\` when copying files to <OUT-DIR>]' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--docker[]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::scope_arg -- Workspaces that should be included in the subset:' \
+&& ret=0
+;;
+(run)
+_arguments "${_arguments_options[@]}" : \
+'(--force --remote-only --remote-cache-read-only --no-cache)--cache=[Set the cache behavior for this run. Pass a list of comma-separated key, value pairs to enable reading and writing to either the local or remote cache]:CACHE: ' \
+'--force=[Ignore the existing cache (to force execution). Equivalent to \`--cache=local\:w,remote\:w\`]' \
+'--remote-only=[Ignore the local filesystem cache for all tasks. Only allow reading and caching artifacts using the remote cache. Equivalent to \`--cache=remote\:rw\`]' \
+'--remote-cache-read-only=[Treat remote cache as read only. Equivalent to \`--cache=remote\:r;local\:rw\`]' \
+'--cache-workers=[Set the number of concurrent cache operations (default 10)]:CACHE_WORKERS: ' \
+'--dry-run=[]' \
+'--graph=[Generate a graph of the task execution and output to a file when a filename is specified (.svg, .html, .mermaid, .dot). Outputs dot graph to stdout when no filename is provided. \[DEPRECATED formats\: .png, .jpg, .pdf, .json -- will be removed in 3.0\]]' \
+'(--anon-profile)--profile=[File to write turbo'\''s performance profile output into. You can load the file up in chrome\://tracing to see which parts of your build were slow]' \
+'(--profile)--anon-profile=[File to write turbo'\''s performance profile output into. All identifying data omitted from the profile]' \
+'--summarize=[Generate a summary of the turbo run]' \
+'--cache-dir=[Override the filesystem cache directory]:CACHE_DIR: ' \
+'--concurrency=[Limit the concurrency of task execution. Use 1 for serial (i.e. one-at-a-time) execution]:CONCURRENCY: ' \
+'--continue=[Specify how task execution should proceed when an error occurs. Use "never" to cancel all tasks. Use "dependencies-successful" to continue running tasks whose dependencies have succeeded. Use "always" to continue running all tasks, even those whose dependencies have failed]' \
+'--framework-inference=[Specify whether or not to do framework inference for tasks]' \
+'*--global-deps=[Specify glob of global filesystem dependencies to be hashed. Useful for .env and files]:GLOBAL_DEPS: ' \
+'--env-mode=[Environment variable mode. Use "loose" to pass the entire existing environment. Use "strict" to use an allowlist specified in turbo.json]' \
+'*-F+[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'*--filter=[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'--output-logs=[Set type of process output logging. Use "full" to show all output. Use "hash-only" to show only turbo-computed task hashes. Use "new-only" to show only new output with only hashes for cached tasks. Use "none" to hide process output. (default full)]:OUTPUT_LOGS:((full\:"Displays all output"
+none\:"Hides all task output"
+hash-only\:"Show only the hashes of the tasks"
+new-only\:"Only show output from cache misses"
+errors-only\:"Only show output from task failures"))' \
+'--log-order=[Set type of task output order. Use "stream" to show output as soon as it is available. Use "grouped" to show output when a command has finished execution. Use "auto" to let turbo decide based on its own heuristics. (default auto)]:LOG_ORDER:(auto stream grouped)' \
+'--pkg-inference-root=[]:PKG_INFERENCE_ROOT: ' \
+'--log-prefix=[Use "none" to remove prefixes from task logs. Use "task" to get task id prefixing. Use "auto" to let turbo decide how to prefix the logs based on the execution environment. In most cases this will be the same as "task". Note that tasks running in parallel interleave their logs, so removing prefixes can make it difficult to associate logs with tasks. Use --log-order=grouped to prevent interleaving. (default auto)]:LOG_PREFIX:(auto none task)' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--no-cache[Avoid saving task results to the cache. Useful for development/watch tasks. Equivalent to \`--cache=local\:r,remote\:r\`]' \
+'--daemon[\[DEPRECATED\] The daemon is no longer used for \`turbo run\`. This flag will be removed in version 3.0]' \
+'--no-daemon[\[DEPRECATED\] The daemon is no longer used for \`turbo run\`. This flag will be removed in version 3.0]' \
+'--parallel[\[DEPRECATED\] Execute all tasks in parallel. Use task configuration (\`persistent\`, \`with\`) instead]' \
+'--single-package[Run turbo in single-package mode]' \
+'(-F --filter)--affected[Filter to only packages that are affected by changes between the current branch and \`main\`]' \
+'--only[Only executes the tasks specified, does not execute parent tasks]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::tasks:' \
+&& ret=0
+;;
+(query)
+_arguments "${_arguments_options[@]}" : \
+'-V+[Pass variables to the query via a JSON file]:VARIABLES: ' \
+'--variables=[Pass variables to the query via a JSON file]:VARIABLES: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'()--schema[]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'::query -- The query to run, either a file path or a query string:' \
+":: :_turbo__query_commands" \
+"*::: :->query" \
+&& ret=0
+
+    case $state in
+    (query)
+        words=($line[2] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:turbo-query-command-$line[2]:"
+        case $line[2] in
+            (affected)
+_arguments "${_arguments_options[@]}" : \
+'*--packages=[Return affected packages instead of tasks. Optionally filter by name. When combined with --tasks, returns affected tasks that match both the task name and package filters]' \
+'*--tasks=[Filter to specific task names (e.g. build, test). When combined with --packages, returns affected tasks that match both the task name and package filters]' \
+'--base=[Base git ref for comparison]:BASE: ' \
+'--head=[Head git ref for comparison]:HEAD: ' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--exit-code[Exit with code 1 when affected packages or tasks are found, 0 when none are found, or 2 on errors. Useful for CI gating. We recommend parsing the JSON output directly for more flexibility]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(watch)
+_arguments "${_arguments_options[@]}" : \
+'--cache-dir=[Override the filesystem cache directory]:CACHE_DIR: ' \
+'--concurrency=[Limit the concurrency of task execution. Use 1 for serial (i.e. one-at-a-time) execution]:CONCURRENCY: ' \
+'--continue=[Specify how task execution should proceed when an error occurs. Use "never" to cancel all tasks. Use "dependencies-successful" to continue running tasks whose dependencies have succeeded. Use "always" to continue running all tasks, even those whose dependencies have failed]' \
+'--framework-inference=[Specify whether or not to do framework inference for tasks]' \
+'*--global-deps=[Specify glob of global filesystem dependencies to be hashed. Useful for .env and files]:GLOBAL_DEPS: ' \
+'--env-mode=[Environment variable mode. Use "loose" to pass the entire existing environment. Use "strict" to use an allowlist specified in turbo.json]' \
+'*-F+[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'*--filter=[Use the given selector to specify package(s) to act as entry points. The syntax mirrors pnpm'\''s syntax, and additional documentation and examples can be found in turbo'\''s documentation https\://turborepo.dev/docs/reference/command-line-reference/run#--filter]:FILTER: ' \
+'--output-logs=[Set type of process output logging. Use "full" to show all output. Use "hash-only" to show only turbo-computed task hashes. Use "new-only" to show only new output with only hashes for cached tasks. Use "none" to hide process output. (default full)]:OUTPUT_LOGS:((full\:"Displays all output"
+none\:"Hides all task output"
+hash-only\:"Show only the hashes of the tasks"
+new-only\:"Only show output from cache misses"
+errors-only\:"Only show output from task failures"))' \
+'--log-order=[Set type of task output order. Use "stream" to show output as soon as it is available. Use "grouped" to show output when a command has finished execution. Use "auto" to let turbo decide based on its own heuristics. (default auto)]:LOG_ORDER:(auto stream grouped)' \
+'--pkg-inference-root=[]:PKG_INFERENCE_ROOT: ' \
+'--log-prefix=[Use "none" to remove prefixes from task logs. Use "task" to get task id prefixing. Use "auto" to let turbo decide how to prefix the logs based on the execution environment. In most cases this will be the same as "task". Note that tasks running in parallel interleave their logs, so removing prefixes can make it difficult to associate logs with tasks. Use --log-order=grouped to prevent interleaving. (default auto)]:LOG_PREFIX:(auto none task)' \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--single-package[Run turbo in single-package mode]' \
+'(-F --filter)--affected[Filter to only packages that are affected by changes between the current branch and \`main\`]' \
+'--only[Only executes the tasks specified, does not execute parent tasks]' \
+'--experimental-write-cache[EXPERIMENTAL\: Write to cache in watch mode]' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::tasks:' \
+&& ret=0
+;;
+(unlink)
+_arguments "${_arguments_options[@]}" : \
+'--api=[Override the endpoint for API calls]:API: ' \
+'--cwd=[The directory in which to run turbo]:CWD: ' \
+'--heap=[Specify a file to save a pprof heap profile]:HEAP: ' \
+'--ui=[Specify whether to use the streaming UI or TUI]:UI:((tui\:"Use the terminal user interface"
+stream\:"Use the standard output stream"
+stream-with-experimental-timestamps\:"Use the standard output stream with timestamps. Note\: This feature is experimental and may change or be removed at any time"
+web\:"Use the web user interface. Note\: This feature is undocumented, experimental, and not meant to be used. It may change or be removed at any time"))' \
+'--login=[Override the login endpoint]:LOGIN: ' \
+'--remote-cache-timeout=[Set a timeout for all HTTP requests]:TIMEOUT: ' \
+'--team=[Set the team slug for API calls]:TEAM: ' \
+'--token=[Set the auth token for API calls]:TOKEN: ' \
+'--trace=[Specify a file to save a pprof trace]:TRACE: ' \
+'(-v)--verbosity=[Verbosity level. Useful when debugging Turborepo or creating logs for issue reports]:COUNT: ' \
+'--experimental-otel-enabled=[Enable OpenTelemetry metrics export]' \
+'--experimental-otel-protocol=[OTLP transport protocol (grpc or http-protobuf)]:PROTOCOL: ' \
+'--experimental-otel-endpoint=[OTLP collector endpoint URL]:URL: ' \
+'--experimental-otel-timeout-ms=[OTLP export timeout in milliseconds (default\: 10000)]:MILLISECONDS: ' \
+'--experimental-otel-interval-ms=[OTLP export interval in milliseconds (default\: 15000)]:MILLISECONDS: ' \
+'*--experimental-otel-header=[Add header to OTLP requests (can be repeated)]:KEY=VALUE: ' \
+'*--experimental-otel-resource=[Add resource attribute to metrics (can be repeated)]:KEY=VALUE: ' \
+'--experimental-otel-metrics-run-summary=[Emit run-level summary metrics (default\: true)]' \
+'--experimental-otel-metrics-task-details=[Emit per-task detail metrics (default\: false)]' \
+'--experimental-otel-use-remote-cache-token=[Use remote cache token for OTLP authentication]' \
+'--root-turbo-json=[Use the \`turbo.json\` located at the provided path instead of one at the root of the repository]:ROOT_TURBO_JSON: ' \
+'--version[]' \
+'--skip-infer[Skip any attempts to infer which version of Turbo the project is configured to use]' \
+'--no-update-notifier[Disable the turbo update notification]' \
+'--color[Force color usage in the terminal]' \
+'--no-color[Suppress color usage in the terminal]' \
+'--preflight[When enabled, turbo will precede HTTP requests with an OPTIONS request for authorization]' \
+'(--verbosity)*-v[]' \
+'--check-for-update[Force a check for a new version of turbo]' \
+'--__test-run[]' \
+'--dangerously-disable-package-manager-check[Allow for missing \`packageManager\` in \`package.json\`]' \
+'--experimental-allow-no-turbo-json[]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_turbo_commands] )) ||
+_turbo_commands() {
+    local commands; commands=(
+'bin:Get the path to the Turbo binary' \
+'get-mfe-port:Get the port assigned to the current microfrontend' \
+'boundaries:' \
+'completion:Generate the autocompletion script for the specified shell' \
+'daemon:Runs the Turborepo background daemon' \
+'devtools:Visualize your monorepo'\''s package graph in the browser' \
+'docs:Search the Turborepo documentation' \
+'generate:Generate a new app / package' \
+'telemetry:Enable or disable anonymous telemetry' \
+'scan:Turbo your monorepo by running a number of '\''repo lints'\'' to identify common issues, suggest fixes, and improve performance' \
+'config:' \
+'ls:EXPERIMENTAL\: List packages in your monorepo' \
+'link:Link your local directory to a Vercel organization and enable remote caching' \
+'login:Login to your Vercel account' \
+'logout:Logout to your Vercel account' \
+'info:Print debugging information' \
+'prune:Prepare a subset of your monorepo' \
+'run:Run tasks across projects in your monorepo' \
+'query:Query your monorepo using GraphQL. If no query is provided, spins up a GraphQL server with GraphiQL' \
+'watch:Arguments used in run and watch' \
+'unlink:Unlink the current directory from your Vercel organization and disable Remote Caching' \
+    )
+    _describe -t commands 'turbo commands' commands "$@"
+}
+(( $+functions[_turbo__bin_commands] )) ||
+_turbo__bin_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo bin commands' commands "$@"
+}
+(( $+functions[_turbo__boundaries_commands] )) ||
+_turbo__boundaries_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo boundaries commands' commands "$@"
+}
+(( $+functions[_turbo__completion_commands] )) ||
+_turbo__completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo completion commands' commands "$@"
+}
+(( $+functions[_turbo__config_commands] )) ||
+_turbo__config_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo config commands' commands "$@"
+}
+(( $+functions[_turbo__daemon_commands] )) ||
+_turbo__daemon_commands() {
+    local commands; commands=(
+'restart:Restarts the turbo daemon' \
+'start:Ensures that the turbo daemon is running' \
+'status:Reports the status of the turbo daemon' \
+'stop:Stops the turbo daemon' \
+'clean:Stops the turbo daemon if it is already running, and removes any stale daemon state' \
+'logs:Shows the daemon logs' \
+    )
+    _describe -t commands 'turbo daemon commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__clean_commands] )) ||
+_turbo__daemon__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon clean commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__logs_commands] )) ||
+_turbo__daemon__logs_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon logs commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__restart_commands] )) ||
+_turbo__daemon__restart_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon restart commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__start_commands] )) ||
+_turbo__daemon__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon start commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__status_commands] )) ||
+_turbo__daemon__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon status commands' commands "$@"
+}
+(( $+functions[_turbo__daemon__stop_commands] )) ||
+_turbo__daemon__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo daemon stop commands' commands "$@"
+}
+(( $+functions[_turbo__devtools_commands] )) ||
+_turbo__devtools_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo devtools commands' commands "$@"
+}
+(( $+functions[_turbo__docs_commands] )) ||
+_turbo__docs_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo docs commands' commands "$@"
+}
+(( $+functions[_turbo__generate_commands] )) ||
+_turbo__generate_commands() {
+    local commands; commands=(
+'workspace:Add a new package or app to your project' \
+'run:' \
+    )
+    _describe -t commands 'turbo generate commands' commands "$@"
+}
+(( $+functions[_turbo__generate__run_commands] )) ||
+_turbo__generate__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo generate run commands' commands "$@"
+}
+(( $+functions[_turbo__generate__workspace_commands] )) ||
+_turbo__generate__workspace_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo generate workspace commands' commands "$@"
+}
+(( $+functions[_turbo__get-mfe-port_commands] )) ||
+_turbo__get-mfe-port_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo get-mfe-port commands' commands "$@"
+}
+(( $+functions[_turbo__info_commands] )) ||
+_turbo__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo info commands' commands "$@"
+}
+(( $+functions[_turbo__link_commands] )) ||
+_turbo__link_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo link commands' commands "$@"
+}
+(( $+functions[_turbo__login_commands] )) ||
+_turbo__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo login commands' commands "$@"
+}
+(( $+functions[_turbo__logout_commands] )) ||
+_turbo__logout_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo logout commands' commands "$@"
+}
+(( $+functions[_turbo__ls_commands] )) ||
+_turbo__ls_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo ls commands' commands "$@"
+}
+(( $+functions[_turbo__prune_commands] )) ||
+_turbo__prune_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo prune commands' commands "$@"
+}
+(( $+functions[_turbo__query_commands] )) ||
+_turbo__query_commands() {
+    local commands; commands=(
+'affected:Check which packages or tasks are affected by changes between two git refs' \
+    )
+    _describe -t commands 'turbo query commands' commands "$@"
+}
+(( $+functions[_turbo__query__affected_commands] )) ||
+_turbo__query__affected_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo query affected commands' commands "$@"
+}
+(( $+functions[_turbo__run_commands] )) ||
+_turbo__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo run commands' commands "$@"
+}
+(( $+functions[_turbo__scan_commands] )) ||
+_turbo__scan_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo scan commands' commands "$@"
+}
+(( $+functions[_turbo__telemetry_commands] )) ||
+_turbo__telemetry_commands() {
+    local commands; commands=(
+'enable:Enables anonymous telemetry' \
+'disable:Disables anonymous telemetry' \
+'status:Reports the status of telemetry' \
+    )
+    _describe -t commands 'turbo telemetry commands' commands "$@"
+}
+(( $+functions[_turbo__telemetry__disable_commands] )) ||
+_turbo__telemetry__disable_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo telemetry disable commands' commands "$@"
+}
+(( $+functions[_turbo__telemetry__enable_commands] )) ||
+_turbo__telemetry__enable_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo telemetry enable commands' commands "$@"
+}
+(( $+functions[_turbo__telemetry__status_commands] )) ||
+_turbo__telemetry__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo telemetry status commands' commands "$@"
+}
+(( $+functions[_turbo__unlink_commands] )) ||
+_turbo__unlink_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo unlink commands' commands "$@"
+}
+(( $+functions[_turbo__watch_commands] )) ||
+_turbo__watch_commands() {
+    local commands; commands=()
+    _describe -t commands 'turbo watch commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_turbo" ]; then
+    _turbo "$@"
+else
+    compdef _turbo turbo
+fi
