@@ -83,6 +83,7 @@ local keymaps = {
     -- ['<A-b>'] = { ":lua require'ufo'.closeAllFolds()<CR>", 'close all folds' },
 
     ['<A-r>'] = { ':Lspsaga rename<CR>', 'smart rename' },
+    ['<A-s>ra'] = { ':vsplit<CR>', 'search and replace all' },
     -- ["<A-i>"] = { ":Lspsaga hover_doc<CR>", "documentation" },
     ['<A-i>'] = { ':lua vim.lsp.buf.hover()<CR>', 'documentation' },
     ['<A-e>'] = { ':Lspsaga peek_definition<CR>', 'peek definition' },

@@ -153,4 +153,20 @@ function M.write_frontmatter(bufnr, fm, end_line)
   vim.api.nvim_buf_set_lines(bufnr, 0, end_line, false, new)
 end
 
+M.getLine = function(path, target)
+  if target < 1 then
+    return nil
+  end
+
+  local i = 0
+  for line in io.lines(path) do
+    i = i + 1
+    if i == target then
+      return line
+    end
+  end
+
+  return nil
+end
+
 return M

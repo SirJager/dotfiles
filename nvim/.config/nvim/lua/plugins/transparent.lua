@@ -5,44 +5,53 @@ local M = {
 
 M.opts = {
   transparent = vim.g.transparent_enabled,
-
   -- table: default groups
   groups = {
     'Normal',
-    'NormalNC',
-    'Comment',
-    'Constant',
-    'Special',
-    'Identifier',
-    'Statement',
-    'PreProc',
-    'Type',
-    'Underlined',
-    'Todo',
-    'String',
-    'Function',
-    'Conditional',
-    'Repeat',
-    'Operator',
-    'Structure',
-    'LineNr',
-    'NonText',
-    'SignColumn',
-    'CursorLine',
-    'CursorLineNr',
-    'StatusLine',
-    'StatusLineNC',
-    'EndOfBuffer',
-  },
-  extra_groups = {
     'NormalFloat',
-    'HoverBorder',
-    'FloatBorder',
+    'NormalNC',
+
     'FloatTitle',
-    'NvimTreeNormal',
-    'BlinkCmpMenu',
-    'BlinkCmpMenuBorder',
+    'FloatFooter',
+    'FloatBorder',
+    'FloatShadow',
+
+    'HoverNormal',
+    'HoverBorder',
+
+    'PmenuSel',
+    'PmenuSbar',
+    'PmenuThumb',
+
+    'MiniFilesBorder',
+
+    -- 'BlinkCmpMenu',
+    -- 'BlinkCmpItemIdx',
+    -- 'BlinkCmpMenuBorder',
+    -- 'BlinkCmpDocBorder',
+    -- 'BlinkCmpSignatureHelpBorder',
   },
+  extra_groups = {},
+}
+
+local disabled = {
+
+  'LineNr',
+  'Visual',
+
+  'MiniFilesNormal',
+  'MiniFilesFile',
+  'MiniFilesDirectory',
+  -- 'MiniFilesCursorLine',
+
+  'WhichKeyBorder',
+  'WhichKeyTitle ',
+
+  'NoiceCmdlinePopupBorder',
+  'NoiceCmdlinePopupBorderHelp',
+  'NoiceCmdlinePopupBorderSearch',
+  'NoiceCmdlinePopupBorderInput',
+  'NoiceCmdlinePopupBorderLua',
 }
 
 M.config = function(_, opts)

@@ -1,24 +1,26 @@
 local M = {
-  "navarasu/onedark.nvim",
+  'navarasu/onedark.nvim',
+  -- priority = 10000,
+  -- lazy = false,
 }
 
 M.opts = {
   -- Default theme style. Choose between
   -- 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-  style = "cool",
+  style = 'cool',
   transparent = true,
   term_colors = true,
   ending_tildes = true,
   cmp_itemkind_reverse = true,
   toggle_style_key = nil,
   lualine = { transparent = true },
-  highlights = require "globals.highlights",
+  highlights = require 'globals.highlights',
   code_style = {
-    comments = "italic",
-    keywords = "bold",
-    functions = "italic",
-    strings = "none",
-    variables = "bold",
+    comments = 'italic',
+    keywords = 'bold',
+    functions = 'italic',
+    strings = 'none',
+    variables = 'bold',
   },
   diagnostics = {
     darker = true,

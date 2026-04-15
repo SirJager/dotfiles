@@ -11,7 +11,7 @@ local M = {
     { 'kirasok/cmp-hledger', ft = { 'ledger' }, event = 'InsertEnter' }, -- yay -S hledger
     { 'phenax/cmp-graphql', event = 'InsertEnter' },
     { 'mgalliou/blink-cmp-tmux', event = 'InsertEnter' },
-    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, event = 'InsertEnter' },
+    -- { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, event = 'InsertEnter' },
     { 'Kaiser-Yang/blink-cmp-dictionary', event = 'InsertEnter' },
   },
   opts_extend = { 'sources.default' },
@@ -84,7 +84,7 @@ M.opts.sources = {
     'buffer',
     'tailwindcss',
     'tmux',
-    'dadbod',
+    -- 'dadbod',
     'dictionary',
     'hledger',
   },
@@ -146,7 +146,7 @@ M.opts.sources = {
       opts = { panes = 'all', capture_history = false, triggered_only = false, trigger_chars = { '.' } },
     },
     dadbod = {
-      enabled = true,
+      enabled = false,
       name = 'Dadbod',
       module = 'vim_dadbod_completion.blink',
       score_offset = 85, -- the higher the number, the higher the priority

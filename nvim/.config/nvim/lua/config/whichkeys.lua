@@ -6,10 +6,10 @@ return {
   -- { "<leader>E", "<CMD> Neotree toggle<CR>", icon = "  ", desc = "[F]ile Manager" },
   { "<leader>v", "<CMD>PasteImage<CR>", icon = " ", desc = "[V]Paste Image" },
 
-  -- { "<leader>m", group = "[M]acros", icon = "󰮋 " },
-  -- { "<leader>mr", "qa", icon = " ", desc = "Record Macro" },
-  -- { "<leader>ms", "q", icon = " ", desc = "Finish Record" },
-  -- { "<leader>me", "@a", icon = " ", desc = "Execute Macro" },
+
+ -- NOTE: Global Options | Neovim Options
+  { "<leader>o", group = "[O]ptions", icon = "󱃸 " },
+  { "<leader>or", "<CMD>restart<CR>", icon = " ", desc = "[R]estart Neovim" },
 
   -- NOTE: Markdown | Obsidian
   { "<leader>m", group = "[M]arkdown", icon = " " },
@@ -128,6 +128,13 @@ return {
   { "<leader>th", "<ESC><ESC>:noh<CR>", icon = " ", desc = "[h]ighlights" },
   { "<leader>tt", "<CMD>Typr<CR>", icon = " ", desc = "[T]ypist" },
   { "<leader>ty", "<CMD>TyprStats<CR>", icon = " ", desc = "T[y]pist Stats" },
+  { "<leader>tp", "<CMD>TransparentToggle<CR>", icon = " ", desc = "[T]ransparent Toggle" },
+  -- toggle macros
+  { "<leader>tm", group = "[M]acros", icon = "󰮋 " },
+  { "<leader>tmr", "qa", icon = " ", desc = "Record Macro" },
+  { "<leader>tms", "q", icon = " ", desc = "Finish Record" },
+  { "<leader>tme", "@a", icon = " ", desc = "Execute Macro" },
+
   -- { "<leader>tz", ":TSToolsOrganizeImports<CR>", icon = "󰒺 ", desc = "[T]ypescript [O]rganize Imports" },
   -- -- Tools:Lab
   -- { "<leader>tl", group = "[L]ab", icon = "󰤑 " },
@@ -158,6 +165,16 @@ return {
   {"<leader>ie",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [E]xplain"},
   {"<leader>if",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [F]ix"},
   {"<leader>il",":CopilotChatCommit<CR>",icon = " ",desc = "Chat [L]oad"},
+
+  -- OpenCode
+  { "<leader>io", group = "[O]penCode", icon = "󱘈" },
+  { "<leader>ioo", function() require('opencode').toggle() end, desc = "Toggle opencode" },
+  { "<leader>ioa", function() require('opencode').ask('@this: ', { submit = true }) end, desc = "Ask opencode…" },
+  { "<leader>iox", function() require('opencode').select() end, desc = "Execute opencode action…" },
+  { "<leader>ior", function() return require('opencode').operator '@this ' end, desc = "Add range to opencode", expr = true },
+  { "<leader>iol", function() return require('opencode').operator '@this ' .. '_' end, desc = "Add line to opencode", expr = true },
+  { "<leader>iou", function() require('opencode').command 'session.half.page.up' end, desc = "Scroll opencode up" },
+  { "<leader>iod", function() require('opencode').command 'session.half.page.down' end, desc = "Scroll opencode down" },
 }
 
 -- stylua: ignore end

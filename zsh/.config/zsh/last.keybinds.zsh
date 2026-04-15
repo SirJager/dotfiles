@@ -18,4 +18,4 @@ bindkey '^k' history-search-forward
 
 _bindkey '^n' _nvim
 
-
+_bindkey '^o' _tvsesh

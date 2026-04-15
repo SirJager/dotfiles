@@ -40,6 +40,7 @@ alias l="eza --long --icons --git"
 alias la="eza --icons --git --long --all"
 alias ls="eza --icons --git"
 alias lt="eza --tree --level=2 --long --icons --git"
+alias pwd='pwd | tee >(wl-copy)'
 
 # Git Commands ===================================================
 alias fetch="git fetch"                                   # Git Fetch

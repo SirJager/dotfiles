@@ -81,5 +81,3 @@ copy_config "sddm/theme.conf"
 
 # -- doas Alternative to sudo ---
 copy_config "doas/doas.conf"
-
-

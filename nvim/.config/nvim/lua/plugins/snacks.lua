@@ -73,7 +73,7 @@ M.opts = {
           backdrop = false,
           row = -1,
           width = 0,
-          height = 0.5,
+          height = 0.65,
           border = 'top',
           title = ' {title} {live} {flags}',
           title_pos = 'left',
@@ -102,7 +102,6 @@ M.opts = {
         },
       },
     },
-
     win = {
       input = {
         keys = {

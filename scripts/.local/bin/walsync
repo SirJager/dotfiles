@@ -8,14 +8,14 @@ last_wall=""
   exit 1
 }
 
-for cmd in jq swww inotifywait; do
+for cmd in jq awww inotifywait; do
   command -v "$cmd" >/dev/null 2>&1 || {
     echo "❌ Missing dependency: $cmd"
     exit 1
   }
 done
 
-pgrep -x swww-daemon >/dev/null || swww-daemon & disown
+pgrep -x awww-daemon >/dev/null || awww-daemon & disown
 
 echo "📡 Watching $DMS_SESSION for wallpaper changes..."
 

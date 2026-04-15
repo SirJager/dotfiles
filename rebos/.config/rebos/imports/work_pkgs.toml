@@ -24,6 +24,7 @@ items = [
   'visual-studio-code-bin', # Visual studio code
   "sesh-bin",               # Sesh is a CLI that helps you create and manage tmux sessions quickly and easily using zoxide.
   "television",             # Television is a fast, portable and hackable fuzzy finder for the terminal.
+  # "opencode-bin",           # The open source AI coding agent.
 ]
 
 [managers.cargo]
@@ -34,8 +35,9 @@ items = [
 
 [managers.node_pkgs]
 items = [
-  "nx",    # Nx is a build system for monorepos. It helps you develop faster and keep CI fast as your codebase scales.
-  "turbo", # Turborepo is the build system for JavaScript and TypeScript codebases
+  "nx",                   # Nx is a build system for monorepos. It helps you develop faster and keep CI fast as your codebase scales.
+  "turbo",                # Turborepo is the build system for JavaScript and TypeScript codebases
+  "zsh-pnpm-completions", # Smart pnpm completions for Z-shell with live npm search and workspace support
 ]
 
 

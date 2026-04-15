@@ -57,10 +57,10 @@ IMAGE="$(random_file "$PROVIDED_PATH")"
 set_wallpaper_on_wayland() {
   set -e
 
-  # Ensure swww-daemon running
-  pgrep -x swww-daemon &>/dev/null || swww-daemon & disown
+  # Ensure awww-daemon running
+  pgrep -x awww-daemon &>/dev/null || awww-daemon & disown
 
-  swww img "$1" \
+  awww img "$1" \
     --transition-type="${TRANSITION:-any}" \
     --transition-pos=bottom-left \
     --transition-step=30 \

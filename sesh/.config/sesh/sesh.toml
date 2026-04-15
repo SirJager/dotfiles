@@ -100,3 +100,10 @@ name = "config-moxide"
 path = "~/dotfiles/moxide/.config/moxide"
 startup_command = "nvim settings.toml"
 preview_command = "bat --color=always ~/dotfiles/moxide/.config/moxide/settings.toml"
+
+
+[[session]]
+name = "project-devcore"
+path = "/mnt/storage/workspace/projects/devcore"
+startup_command = "nvim package.json"
+preview_command = "bat --color=always /mnt/storage/workspace/projects/devcore/package.json"

@@ -7,7 +7,7 @@ items = [
   "xorg-xhost",             # X server access control utility
   "xorg-server-xwayland",   # XWayland server for running X apps on Wayland
   "waybar",                 # Highly customizable status bar for Sway/Wayland
-  "swww",                   # Wallpaper and lockscreen manager for Wayland
+  "awww-bin",               # Wallpaper and lockscreen manager for Wayland. Now renamed  swww --> awww
   "rofi-wayland",           # Application launcher/menu for Wayland
   "quickshell-git",         # Quickshell is a toolkit for building status bars, widgets, lockscreens, and other components
   "slurp",                  # Select a region in a Wayland compositor and print it to the standard output
