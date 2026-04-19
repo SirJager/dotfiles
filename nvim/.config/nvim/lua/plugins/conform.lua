@@ -1,6 +1,7 @@
 local M = {
   'stevearc/conform.nvim',
-  lazy = false,
+  -- lazy = false,
+  event = 'BufReadPost',
   dependencies = {
     'gvvaughan/lyaml',
   },
