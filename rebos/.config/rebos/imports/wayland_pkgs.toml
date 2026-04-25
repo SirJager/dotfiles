@@ -1,8 +1,8 @@
 # X11 Display Server Packages
 [managers.packages]
 items = [
-  # "noctalia-shell",       # A sleek, minimal, and thoughtfully crafted desktop shell for Wayland using Quickshell!
   # "uwsm",                 # A standalone Wayland session manager
+  "noctalia-shell",         # A sleek, minimal, and thoughtfully crafted desktop shell for Wayland using Quickshell!
   "wl-clipboard",           # Clipboard utilities for Wayland (wl-copy & wl-paste)
   "xorg-xhost",             # X server access control utility
   "xorg-server-xwayland",   # XWayland server for running X apps on Wayland
@@ -13,6 +13,5 @@ items = [
   "slurp",                  # Select a region in a Wayland compositor and print it to the standard output
   "grim",                   # Grab images from a Wayland compositor. Works great with slurp.
   "wf-recorder",            # cli based screen recording, uses ffmpeg
-  "kooha-git",              # gui based screen recorder
   "xdg-desktop-portal-wlr", # GTK portal for bus integration for wayland
 ]
