@@ -1,0 +1,17 @@
+# ----------------------------------- #
+#    Package Manager Configuration    #
+# ----------------------------------- #
+
+add = "uv tool install #:?"
+remove = "uv tool uninstall #:?"
+
+plural_name = "python packages"
+
+hook_name = "python_packages"
+
+# ------------------------------- #
+#    Additional configuration.    #
+# ------------------------------- #
+
+[config]
+many_args = false

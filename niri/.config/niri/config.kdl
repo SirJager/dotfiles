@@ -145,8 +145,9 @@ layout {
 //==============================================================================
 // Autostart: Quick Shell, Bars, Wallpapers
 //==============================================================================
-spawn-at-startup "dms" "run"
-spawn-at-startup "walsync"
+spawn-at-startup "qs" "-c" "noctalia-shell"
+// spawn-at-startup "walsync"
+// spawn-at-startup "dms" "run"
 // syncs wallpaper set by dms with swww// spawn-sh-at-startup "pgrep -x ignis >/dev/null || ignis init"
 //==============================================================================
 // Autostart: auth-agent, gnome-keyring

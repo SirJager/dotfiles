@@ -43,6 +43,13 @@ items = [
 ]
 
 
+[managers.python_pkgs]
+items = [
+  "posting",        # Posting is a beautiful terminal app for developing & testing APIs
+  "markitdown",     # Python utility for converting various files to Markdown
+]
+
+
 [managers.serv_start]
 items = [
   "docker", # Start Docker daemon at login
