@@ -30,8 +30,12 @@ local hide_patterns = {
   '^%.git$',
   '^%.gitignore$',
   '^bun.lock$',
+  '^uv.lock$',
+  '^__init__.py$',
+  "^__pycache__$",
   '^%.fuse_hidden*',
   '%.tsbuildinfo$',
+  '^%hledger.conf$',
   to_lua_pattern '.fuse_hidden*',
   to_lua_pattern 'pnpm-lock.yaml',
 }

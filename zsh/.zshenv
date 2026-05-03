@@ -13,6 +13,8 @@ export mydocuments="$mystorage/downloads/Documents"
 #
 export mywallpapers="$mystorage/wallpaper"
 export myscripts="$mydotfiles/scripts/.local/bin"
+#
+export myledger="$mystorage/personal/ledgers/main.ledger"
 
 # XDG Directories
 export XDG_CACHE_HOME="$HOME/.cache"

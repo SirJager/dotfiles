@@ -30,7 +30,7 @@ input {
     }
     touchpad {
         //::toggle::touchpad
-// off
+        off
         tap
         natural-scroll
         accel-speed 0.2
@@ -145,7 +145,7 @@ layout {
 //==============================================================================
 // Autostart: Quick Shell, Bars, Wallpapers
 //==============================================================================
-spawn-at-startup "qs" "-c" "noctalia-shell"
+// spawn-at-startup "qs" "-c" "noctalia-shell"
 // spawn-at-startup "walsync"
 // spawn-at-startup "dms" "run"
 // syncs wallpaper set by dms with swww// spawn-sh-at-startup "pgrep -x ignis >/dev/null || ignis init"
@@ -218,7 +218,7 @@ window-rule {
 }
 window-rule {
     match app-id="kitty"
-    opacity 1.00
+    opacity 1.0
 }
 window-rule {
     match app-id="org.qutebrowser.qutebrowser"
@@ -232,22 +232,19 @@ binds {
     // Dank Quick shell
     //==============================================================================
     Mod+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
-        // show-hotkey-overlay
         spawn-sh "kitten quick-access-terminal --config ~/.config/kitty/float-keybinds.conf --instance-group kitty-quick-term /bin/zsh -c  'keybindings-niri --fzf'"
     }
-    Mod+Ctrl+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
-        // show-hotkey-overlay
+    Mod+Shift+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
         spawn-sh "keybindings-niri --rofi"
     }
-    Mod+Shift+Slash repeat=false hotkey-overlay-title="keybinds:: show keybindings" {
-        // show-hotkey-overlay
-        spawn-sh "keybindings-niri --yad"
+    Mod+Ctrl+Slash repeat=false hotkey-overlay-title="keybinds:: toggle bar" {
+        spawn-sh "qs -c noctalia-shell ipc call bar toggle"
     }
     Mod+Ctrl+N repeat=false hotkey-overlay-title="desktop:: notification center" {
-        spawn-sh "dms ipc call notifications toggle"
+        spawn-sh "qs -c noctalia-shell ipc call notifications toggleHistory"
     }
     Mod+Ctrl+W repeat=false hotkey-overlay-title="desktop:: change wallpaper" {
-        spawn-sh "dms ipc call dankdash wallpaper"
+        spawn-sh "qs -c noctalia-shell ipc call wallpaper toggle"
     }
     Mod+Ctrl+P repeat=false hotkey-overlay-title="utility:: quick notepad or scratchpad" {
         spawn-sh "dms ipc call notepad toggle"
@@ -256,10 +253,10 @@ binds {
         spawn-sh "dms ipc call lock lock"
     }
     Mod+V repeat=false hotkey-overlay-title="utility:: clipboard manager" {
-        spawn-sh "dms ipc call clipboard toggle"
+        spawn-sh "qs -c noctalia-shell ipc call launcher clipboard"
     }
-    Mod+Ctrl+Y repeat=false hotkey-overlay-title="launch:: dank settings manager" {
-        spawn-sh "dms ipc call settings toggle"
+    Mod+Ctrl+T repeat=false hotkey-overlay-title="launch:: shell control center" {
+        spawn-sh "qs -c noctalia-shell ipc call controlCenter toggle"
     }
     Mod+Ctrl+Backslash repeat=false hotkey-overlay-title="toggle:: touchpad" {
         spawn-sh "toggle-line --id=touchpad --on=off --off=off --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
@@ -310,16 +307,16 @@ binds {
     // Audio Controls | Media Volume
     //==============================================================================
     Mod+Equal allow-when-locked=true hotkey-overlay-title="audio:: volume increase" {
-        spawn-sh "dms ipc call audio increment 5"
+        spawn-sh "qs -c noctalia-shell ipc call volume increase"
     }
     Mod+Minus allow-when-locked=true hotkey-overlay-title="audio:: volume decrease" {
-        spawn-sh "dms ipc call audio decrement 5"
+        spawn-sh "qs -c noctalia-shell ipc call volume decrease"
     }
     XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="audio:: volume increase" {
-        spawn-sh "dms ipc call audio increment 5"
+        spawn-sh "qs -c noctalia-shell ipc call volume increase"
     }
     XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="audio:: volume decrease" {
-        spawn-sh "dms ipc call audio decrement 5"
+        spawn-sh "qs -c noctalia-shell ipc call volume decrease"
     }
     XF86AudioMute allow-when-locked=true hotkey-overlay-title="audio:: volume toggle mute" {
         spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -340,16 +337,16 @@ binds {
     // Brightness Control
     //==============================================================================
     Mod+Shift+Equal allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
-        spawn-sh "dms ipc call brightness increment 5 \"\" "
+        spawn-sh "qs -c noctalia-shell ipc call brightness increase"
     }
     Mod+Shift+Minus allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
-        spawn-sh "dms ipc call brightness decrement 5 \"\" "
+        spawn-sh "qs -c noctalia-shell ipc call brightness decrease"
     }
     Mod+XF86AudioRaiseVolume repeat=false allow-when-locked=true hotkey-overlay-title="power:: brightness increase" {
-        spawn-sh "dms ipc call brightness increment 5 \"\" "
+        spawn-sh "qs -c noctalia-shell ipc call brightness increase"
     }
     Mod+XF86AudioLowerVolume repeat=false allow-when-locked=true hotkey-overlay-title="power:: brightness decrease" {
-        spawn-sh "dms ipc call brightness decrement 5 \"\" "
+        spawn-sh "qs -c noctalia-shell ipc call brightness decrease"
     }
     //==============================================================================
     // Nightlight Control | Bluelight Filter | Sunset script
@@ -561,6 +558,9 @@ binds {
     Mod+Shift+O repeat=false hotkey-overlay-title="utility::open copied link in browser if any" {
         spawn-sh "url=$(wl-paste | grep -oE 'https?://[^[:space:]]+' | head -n1 | sed 's/[[:punct:]]*$//') && [[ \"$url\" =~ ^https?:// ]] && xdg-open \"$url\" && notify-send \"Opening link in $BROWSER\" \"$url\" || notify-send \"Clipboard does not contain a valid link.\" \"$url\" "
     }
+    Mod+Shift+Y repeat=false hotkey-overlay-title="utility::Youtube thumbnail to clipboard from clipboard link" {
+        spawn-sh "url=$(wl-paste | grep -oE 'https?://[^[:space:]]+' | head -n1 | sed 's/[[:punct:]]*$//'); if [[ \"$url\" =~ ^https?://(www\\.)?(youtube\\.com|youtu\\.be) ]]; then id=$(echo \"$url\" | sed -E 's#.*(v=|youtu\\.be/|shorts/)([^&?/]+).*#\\2#'); [[ -n \"$id\" ]] && echo -n \"https://img.youtube.com/vi/$id/maxresdefault.jpg\" | wl-copy; fi"
+    }
     Mod+Ctrl+I repeat=false hotkey-overlay-title="utility::show running windows ids" {
         // spawn-sh "notify-send -r 20000 \"🪟 Niri Windows\" \"$(niri msg windows | awk -F'\\\"' '/App ID/ {print $2}' | paste -sd '\n' -)\""
         spawn-sh "yad --list --no-headers --no-click --separator='' --column=Window $(niri msg windows | awk -F'\\\"' '/App ID/ {print $2}' | paste -sd '\n' -) | wl-copy"
@@ -580,7 +580,7 @@ binds {
     Mod+Ctrl+WheelScrollUp cooldown-ms=150 hotkey-overlay-title="workspace:: focus column left" {
         focus-column-left
     }
-    Mod+Shift+Y cooldown-ms=300 hotkey-overlay-title="system:: local ip address" {
+    Mod+Ctrl+Y cooldown-ms=300 hotkey-overlay-title="system:: local ip address" {
         spawn-sh "notify-send \"Local IP Address: $(localip)\" "
     }
  //==============================================================================

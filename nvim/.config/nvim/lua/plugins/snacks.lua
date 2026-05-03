@@ -34,7 +34,7 @@ M.opts = {
         { icon = "", key = "P", desc = "Project", action = ":lua require('snacks').picker.projects()", enabled = package.loaded.lazy ~= nil },
         { icon = "", key = "M", desc = "Mason", action = ":Mason", enabled = package.loaded.lazy ~= nil },
         { icon = "󰒲", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-        { icon = "", key = "K", desc = "Keymaps", action = ":lua require('snacks').picker.keymaps({layout='default'})", enabled = package.loaded.lazy ~= nil },
+        -- { icon = "", key = "K", desc = "Keymaps", action = ":lua require('snacks').picker.keymaps({layout='default'})", enabled = package.loaded.lazy ~= nil },
         { icon = "", key = "q", desc = "Quit", action = ":qa" },
         -- stylua: ignore end
       },

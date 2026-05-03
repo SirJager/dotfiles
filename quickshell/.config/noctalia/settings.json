@@ -82,7 +82,7 @@
                     "clockColor": "none",
                     "customFont": "",
                     "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "h m - dd MM",
+                    "formatVertical": "hh mm - dd MM",
                     "id": "Clock",
                     "tooltipFormat": "HH:mm ddd, MMM dd",
                     "useCustomFont": false
@@ -303,19 +303,56 @@
     },
     "desktopWidgets": {
         "enabled": true,
-        "gridSnap": true,
+        "gridSnap": false,
         "gridSnapScale": false,
         "monitorWidgets": [
             {
                 "name": "eDP-1",
                 "widgets": [
                     {
+                        "clockColor": "primary",
+                        "clockStyle": "minimal",
+                        "customFont": "JetBrainsMono NF",
+                        "format": "hh:mm",
+                        "id": "Clock",
+                        "roundedCorners": true,
+                        "scale": 5,
+                        "showBackground": false,
+                        "useCustomFont": false,
+                        "x": 736,
+                        "y": 508
+                    },
+                    {
                         "id": "Weather",
                         "roundedCorners": true,
                         "scale": 1,
-                        "showBackground": true,
-                        "x": 1646,
-                        "y": 976
+                        "showBackground": false,
+                        "x": 840,
+                        "y": 0
+                    },
+                    {
+                        "colorName": "primary",
+                        "height": 72,
+                        "hideWhenIdle": true,
+                        "id": "AudioVisualizer",
+                        "roundedCorners": true,
+                        "scale": 1.516482578091674,
+                        "showBackground": false,
+                        "visualizerType": "linear",
+                        "width": 320,
+                        "x": 740,
+                        "y": 960
+                    },
+                    {
+                        "diskPath": "/",
+                        "id": "SystemStat",
+                        "layout": "bottom",
+                        "roundedCorners": true,
+                        "scale": 1,
+                        "showBackground": false,
+                        "statType": "Network",
+                        "x": 1660,
+                        "y": 3
                     }
                 ]
             }
@@ -398,7 +435,7 @@
             ]
         },
         "language": "",
-        "lockOnSuspend": true,
+        "lockOnSuspend": false,
         "lockScreenAnimations": false,
         "lockScreenBlur": 0,
         "lockScreenCountdownDuration": 10000,
@@ -435,9 +472,9 @@
     "idle": {
         "customCommands": "[]",
         "enabled": false,
-        "fadeDuration": 5,
+        "fadeDuration": 10,
         "lockCommand": "",
-        "lockTimeout": 660,
+        "lockTimeout": 600,
         "resumeLockCommand": "",
         "resumeScreenOffCommand": "",
         "resumeSuspendCommand": "",
@@ -479,7 +516,7 @@
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "nightTemp": "4000"
+        "nightTemp": "5092"
     },
     "noctaliaPerformance": {
         "disableDesktopWidgets": true,
@@ -645,7 +682,7 @@
     },
     "ui": {
         "boxBorderEnabled": false,
-        "fontDefault": "Noto Sans",
+        "fontDefault": "Roboto",
         "fontDefaultScale": 1,
         "fontFixed": "Noto Sans Mono",
         "fontFixedScale": 1,
@@ -659,14 +696,14 @@
     },
     "wallpaper": {
         "automationEnabled": false,
-        "directory": "/home/jager/Pictures",
+        "directory": "/home/jager/Pictures/wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [
         ],
         "fillColor": "#000000",
         "fillMode": "crop",
-        "hideWallpaperFilenames": true,
+        "hideWallpaperFilenames": false,
         "linkLightAndDarkWallpapers": true,
         "monitorDirectories": [
         ],
@@ -679,7 +716,7 @@
         "showHiddenFiles": true,
         "skipStartupTransition": false,
         "solidColor": "#1a1a2e",
-        "sortOrder": "date_asc",
+        "sortOrder": "name_desc",
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,
         "transitionType": [

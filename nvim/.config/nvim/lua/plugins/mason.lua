@@ -10,6 +10,7 @@ local M = {
     'jay-babu/mason-nvim-dap.nvim',
     'jay-babu/mason-null-ls.nvim',
     'nvimtools/none-ls.nvim',
+    'AlxHnr/null-ls-bean-check.nvim',
   },
   cmd = {
     'Mason',
@@ -48,6 +49,7 @@ M.servers = {
     'gopls',
     'golangci_lint_ls',
     'vimls',
+    -- 'beancount',
   },
   linters = {
     'shellcheck',
@@ -119,6 +121,8 @@ function M.config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   -- Use the function call form to MERGE (not replace) the config
   vim.lsp.config('markdown_oxide', {
+    filetypes = { 'markdown' },
+    root_markers = { '.git', '.obsidian', '.moxide.toml' },
     -- Ensure that dynamicRegistration is enabled! This allows the LS to take into account actions like the
     -- Create Unresolved File code action, resolving completions for unindexed code blocks, ...
     capabilities = vim.tbl_deep_extend('force', capabilities, {

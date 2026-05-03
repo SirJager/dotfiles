@@ -8,7 +8,7 @@ local M = {
     { 'rafamadriz/friendly-snippets', event = 'InsertEnter' },
     { 'roobert/tailwindcss-colorizer-cmp.nvim', event = 'InsertEnter' },
     { 'becknik/blink-cmp-luasnip-choice', event = 'InsertEnter' },
-    { 'kirasok/cmp-hledger', ft = { 'ledger' }, event = 'InsertEnter' }, -- yay -S hledger
+    { 'kirasok/cmp-hledger', ft = { 'ledger', 'hledger', 'journal', 'beancount' }, event = 'InsertEnter' }, -- yay -S hledger
     { 'phenax/cmp-graphql', event = 'InsertEnter' },
     { 'mgalliou/blink-cmp-tmux', event = 'InsertEnter' },
     -- { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, event = 'InsertEnter' },
@@ -81,12 +81,12 @@ M.opts.sources = {
     'lsp',
     'snippets',
     'path',
+    'hledger',
     'buffer',
     'tailwindcss',
     'tmux',
     -- 'dadbod',
     'dictionary',
-    'hledger',
   },
   providers = {
     lsp = {
@@ -155,6 +155,7 @@ M.opts.sources = {
       enabled = true,
       name = 'hledger',
       module = 'blink.compat.source',
+      score_offset = 90, -- the higher the number, the higher the priority
     },
     dictionary = {
       enabled = true,
@@ -203,6 +204,8 @@ M.config = function(_, opts)
   require('luasnip.loaders.from_vscode').lazy_load {
     paths = { vim.fn.stdpath 'config' .. '/snippets' },
   }
+
+  -- require('null-ls').register(require 'null-ls-bean-check')
 end
 
 return M

@@ -101,9 +101,23 @@ path = "~/dotfiles/moxide/.config/moxide"
 startup_command = "nvim settings.toml"
 preview_command = "bat --color=always ~/dotfiles/moxide/.config/moxide/settings.toml"
 
-
 [[session]]
 name = "project-devcore"
 path = "/mnt/storage/workspace/projects/devcore"
 startup_command = "nvim package.json"
 preview_command = "bat --color=always /mnt/storage/workspace/projects/devcore/package.json"
+
+[[session]]
+name = "personal-ledger"
+path = "/mnt/storage/personal/ledgers"
+startup_command="nvim $(date +%Y).beancount"
+preview_command = 'bat --color=always /mnt/storage/personal/ledgers/"$(date +%Y)".beancount'
+
+
+[[session]]
+name = "personal-idealogs"
+path = "/mnt/storage/personal/idealogs"
+startup_command="nvim"
+preview_command = 'bat --color=always /mnt/storage/personal/idealogs/package.json'
+
+

@@ -1,0 +1,15 @@
+[Unit]
+Description=Noctalia Shell, A beautiful, minimal desktop shell for Wayland
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=qs -c noctalia-shell
+Restart=always
+RestartSec=5
+
+# Optional hardening
+NoNewPrivileges=true
+
+[Install]
+WantedBy=graphical-session.target

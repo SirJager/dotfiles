@@ -25,6 +25,15 @@ items = [
   "sesh-bin",               # Sesh is a CLI that helps you create and manage tmux sessions quickly and easily using zoxide.
   "television",             # Television is a fast, portable and hackable fuzzy finder for the terminal.
   "winboat-bin",            # Run Windows apps on Linux with seamless integration
+  "beancount",              # Double-Entry Accounting from Text Files
+  "hledger",                # hledger is for tracking money, investments, cryptocurrencies, time, or any countable commodity
+  "hledger-ui",             # hledger ui
+  "hledger-web",            # hledger web ui
+  "glow",                   # Glow is a terminal based markdown reader
+  "zathura",                # PDF viewer
+  "zathura-cb",             # zathura comic support
+  "zathura-djvu",           # zathura djvu support
+  "zathura-epub-mupdf",     # zathura epub and mupdf support
   # "kdenlive-git",           # A non-linear video editor for Linux using the MLT video framework. KF5 Frameworks (Latest Applications GIT Version)
   # "opencode-bin",           # The open source AI coding agent.
 ]
@@ -45,8 +54,9 @@ items = [
 
 [managers.python_pkgs]
 items = [
-  "posting",        # Posting is a beautiful terminal app for developing & testing APIs
-  "markitdown",     # Python utility for converting various files to Markdown
+  "fava",       # Fava is a web interface for the double-entry bookkeeping software Beancount
+  "posting",    # Posting is a beautiful terminal app for developing & testing APIs
+  "markitdown", # Python utility for converting various files to Markdown
 ]
 
 
