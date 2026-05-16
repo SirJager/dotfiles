@@ -12,6 +12,4 @@ items = [
   "gtk-engine-murrine",     # Murrine GTK2 engine for modern themes
   "gtk3",                   # GTK3 libraries
   "gtk4",                   # GTK4 libraries
-  "xdg-desktop-portal",     # Desktop integration portal for sandboxed apps
-  "xdg-desktop-portal-gtk", # GTK backend for xdg-desktop-portal
 ]

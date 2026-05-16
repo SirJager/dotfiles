@@ -2,16 +2,17 @@
 [managers.packages]
 items = [
   # "uwsm",                 # A standalone Wayland session manager
-  "noctalia-shell",         # A sleek, minimal, and thoughtfully crafted desktop shell for Wayland using Quickshell!
-  "wl-clipboard",           # Clipboard utilities for Wayland (wl-copy & wl-paste)
-  "xorg-xhost",             # X server access control utility
-  "xorg-server-xwayland",   # XWayland server for running X apps on Wayland
-  "waybar",                 # Highly customizable status bar for Sway/Wayland
-  "awww-bin",               # Wallpaper and lockscreen manager for Wayland. Now renamed  swww --> awww
-  "rofi-wayland",           # Application launcher/menu for Wayland
-  "quickshell-git",         # Quickshell is a toolkit for building status bars, widgets, lockscreens, and other components
-  "slurp",                  # Select a region in a Wayland compositor and print it to the standard output
-  "grim",                   # Grab images from a Wayland compositor. Works great with slurp.
-  "wf-recorder",            # cli based screen recording, uses ffmpeg
-  "xdg-desktop-portal-wlr", # GTK portal for bus integration for wayland
+  "noctalia-shell",           # A sleek, minimal, and thoughtfully crafted desktop shell for Wayland using Quickshell!
+  "wl-clipboard",             # Clipboard utilities for Wayland (wl-copy & wl-paste)
+  "xorg-xhost",               # X server access control utility
+  "xorg-server-xwayland",     # XWayland server for running X apps on Wayland
+  "waybar",                   # Highly customizable status bar for Sway/Wayland
+  "awww-bin",                 # Wallpaper and lockscreen manager for Wayland. Now renamed  swww --> awww
+  "rofi-wayland",             # Application launcher/menu for Wayland
+  "quickshell-git",           # Quickshell is a toolkit for building status bars, widgets, lockscreens, and other components
+  "slurp",                    # Select a region in a Wayland compositor and print it to the standard output
+  "grim",                     # Grab images from a Wayland compositor. Works great with slurp.
+  "wf-recorder",              # cli based screen recording, uses ffmpeg
+  "xdg-desktop-portal-wlr",   # GTK portal for bus integration for wayland
+  "xdg-desktop-portal-gnome", # Gnome portal used for screen recording and sharing
 ]

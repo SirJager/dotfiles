@@ -30,33 +30,34 @@ items = [
   "xdotool",      # Simulate keyboard/mouse input
   "os-prober",    # Detect other OS installations
   # "timeshift",              # System restore utility (commented out)
-  "gnome-screenshot",       # Take screenshots
-  "imagemagick",            # Image manipulation suite
-  "htop",                   # Interactive process viewer
-  "btop",                   # Resource monitor with graphs
-  "gufw",                   # GUI firewall manager
-  "xdg-utils",              # Utilities for desktop integration
-  "gum",                    # CLI UI utilities
-  "yad",                    # GTK dialog generator
-  "bat",                    # Syntax-highlighting cat clone
-  "stow",                   # Symlink farm manager
-  "luajit",                 # LuaJiT
-  "trash-cli",              # Move files to trash from CLI
-  "xdg-desktop-portal",     # XDG portal for dbus integration
-  "xdg-desktop-portal-gtk", # GTK portal for bus integration
-  "xdg-user-dirs",          # Manage user directories like ~/Desktop
-  "pacman-contrib",         # Extra pacman utilities
-  "parallel",               # Execute jobs in parallel
-  "seahorse",               # GUI to manage keys and passwords
-  "accountsservice",        # User account information management service
-  "qt6-multimedia",         # Qt6 module for multimedia support (audio/video)
-  "cliphist",               # Clipboard history manager for Wayland/X11
-  "cava",                   # Console-based audio visualizer
-  "inotify-tools",          # CLI utilities to monitor filesystem events (create, modify, delete, etc.) using Linux inotify API
-  "imagemagick",            # ImageMagick: convert, scale, and crop images etc
-  "yt-dlp",                 # Youtube dl
-  "superfile",              # superfile is a very fancy and modern terminal file manager
-  "exiftool",               # file file metadata
+  "gnome-screenshot",          # Take screenshots
+  "imagemagick",               # Image manipulation suite
+  "htop",                      # Interactive process viewer
+  "btop",                      # Resource monitor with graphs
+  "gufw",                      # GUI firewall manager
+  "xdg-utils",                 # Utilities for desktop integration
+  "gum",                       # CLI UI utilities
+  "yad",                       # GTK dialog generator
+  "bat",                       # Syntax-highlighting cat clone
+  "stow",                      # Symlink farm manager
+  "luajit",                    # LuaJiT
+  "trash-cli",                 # Move files to trash from CLI
+  "gsettings-desktop-schemas", # Provides GNOME-wide configuration schemas
+  "xdg-desktop-portal",        # XDG portal for dbus integration
+  "xdg-desktop-portal-gtk",    # GTK portal for bus integration
+  "xdg-user-dirs",             # Manage user directories like ~/Desktop
+  "pacman-contrib",            # Extra pacman utilities
+  "parallel",                  # Execute jobs in parallel
+  "seahorse",                  # GUI to manage keys and passwords
+  "accountsservice",           # User account information management service
+  "qt6-multimedia",            # Qt6 module for multimedia support (audio/video)
+  "cliphist",                  # Clipboard history manager for Wayland/X11
+  "cava",                      # Console-based audio visualizer
+  "inotify-tools",             # CLI utilities to monitor filesystem events (create, modify, delete, etc.) using Linux inotify API
+  "imagemagick",               # ImageMagick: convert, scale, and crop images etc
+  "yt-dlp",                    # Youtube dl
+  "superfile",                 # superfile is a very fancy and modern terminal file manager
+  "exiftool",                  # file file metadata
 ]
 
 [managers.serv_start]

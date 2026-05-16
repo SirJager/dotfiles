@@ -3,7 +3,9 @@
 # ----------------------------------- #
 
 add = "yay --answerdiff None --answerclean None --needed -S #:?"
-remove = "yay -Rns #:?"
+
+# this command does not throws erros if package is not present.
+remove = "yay -Qq #:? 2>/dev/null | xargs -r yay -Rns"
 
 plural_name = "system packages"
 
