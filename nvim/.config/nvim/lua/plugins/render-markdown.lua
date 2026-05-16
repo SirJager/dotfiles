@@ -6,6 +6,7 @@ local M = {
     'markdown',
     'mdx',
     'mdoc',
+    'org',
     'vimwiki',
   },
   dependencies = {
@@ -20,12 +21,12 @@ M.opts = {
     render_modes = false,
     sign = true,
     icons = {
-      '󰲡 ',
-      '󰲣 ',
-      '󰲥 ',
-      '󰲧 ',
-      '󰲩 ',
-      '󰲫 ',
+      '󰉫 ',
+      '󰉬 ',
+      '󰉭 ',
+      '󰉮 ',
+      '󰉯 ',
+      '󰉰 ',
     },
     position = 'overlay', -- right | inline | overlay
     signs = {

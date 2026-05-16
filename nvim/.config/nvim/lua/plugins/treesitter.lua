@@ -1,6 +1,5 @@
 local M = {
   'nvim-treesitter/nvim-treesitter',
-  branch = 'master',
   build = ':TSUpdate',
   lazy = false,
   dependencies = {
@@ -8,34 +7,7 @@ local M = {
   },
 }
 
-local servers = {
-  'diff',
-  'bash',
-  'jq',
-  'lua',
-  'html',
-  -- "latex",
-  'typst',
-  'yaml',
-  'markdown',
-  'markdown_inline',
-  'typescript',
-  'tsx',
-  'javascript',
-  'json',
-  'css',
-  'scss',
-  'astro',
-  'rasi',
-  'vim',
-  'vimdoc',
-  'regex',
-  'go',
-  'python',
-}
-
 M.opts = {
-  ensure_installed = servers,
   sync_install = false,
   auto_install = true,
   markid = { enable = true },
@@ -75,7 +47,6 @@ M.opts = {
 
 function M.config(_, opts)
   vim.filetype.add { extension = { rasi = 'rasi' } }
-
   -- for astro framework
   vim.filetype.add { extension = { astro = 'astro' } }
   vim.filetype.add { extension = { mdx = 'mdx' } }
@@ -85,8 +56,36 @@ function M.config(_, opts)
   vim.treesitter.language.register('markdown', 'mdoc')
   vim.treesitter.language.register('css', 'rasi')
 
-  require('nvim-treesitter.configs').setup(opts)
+  require('nvim-treesitter').setup(opts)
   -- require'treesitter-context'.setup{}
+end
+
+M.init = function()
+
+-- stylua: ignore start
+  local ensureInstalled = { 'diff', 'bash', 'jq', 'lua', 'html', "latex", 
+  'typst', 'yaml', 'markdown', 'markdown_inline', 'typescript', 'tsx', 
+  'javascript', 'json', 'css', 'scss', 'astro', 'rasi', 'vim', 'vimdoc', 
+  'regex', 'go', 'python', }
+  -- stylua: ignore end
+  local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+  local parsersToInstall = vim
+    .iter(ensureInstalled)
+    :filter(function(parser)
+      return not vim.tbl_contains(alreadyInstalled, parser)
+    end)
+    :totable()
+
+  require('nvim-treesitter').install(parsersToInstall)
+
+  vim.api.nvim_create_autocmd('FileType', {
+    callback = function()
+      -- Enable treesitter highlighting and disable regex syntax
+      pcall(vim.treesitter.start)
+      -- Enable treesitter-based indentation
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+  })
 end
 
 return M

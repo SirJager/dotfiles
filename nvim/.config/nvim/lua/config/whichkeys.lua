@@ -129,6 +129,7 @@ return {
   { "<leader>tt", "<CMD>Typr<CR>", icon = " ", desc = "[T]ypist" },
   { "<leader>ty", "<CMD>TyprStats<CR>", icon = " ", desc = "T[y]pist Stats" },
   { "<leader>tp", "<CMD>TransparentToggle<CR>", icon = " ", desc = "[T]ransparent Toggle" },
+  { "<leader>tp","<CMD>MarkdownPreviewToggle<CR>", icon = "󱇆", desc = "[P]review Markdown" },
   -- toggle macros
   { "<leader>tm", group = "[M]acros", icon = "󰮋 " },
   { "<leader>tmr", "qa", icon = " ", desc = "Record Macro" },

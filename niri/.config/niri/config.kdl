@@ -1,7 +1,8 @@
 //==============================================================================
 // Niri Configs configured for AulaF75 Keyboard 75%
 // Appearance | Effects | Desktop UX/UI
-// #id aulaf75 ; do not remove this line, it helps toggle betweeb keyboard keybindings
+// #id aulaf75 ; do not remove this line, it helps toggle between
+// keyboard keybindings
 //==============================================================================
 prefer-no-csd
 // Removes window's decorations like title bars
@@ -103,12 +104,13 @@ overview {
 // Niri Layouts
 //==============================================================================
 layout {
-    gaps 18
+    gaps 14
     // always-center-single-column
     preset-column-widths {
-        proportion 0.33333
-        proportion 0.5
-        proportion 0.66667
+        // neovim markdown width 70
+        proportion 0.42
+        // youtube player max combined with neovim 70
+        proportion 0.58
     }
     default-column-width {
         proportion 0.7

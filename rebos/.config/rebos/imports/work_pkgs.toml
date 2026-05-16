@@ -34,6 +34,7 @@ items = [
   "zathura-cb",             # zathura comic support
   "zathura-djvu",           # zathura djvu support
   "zathura-epub-mupdf",     # zathura epub and mupdf support
+  "libtexprintf",           # Formatted Output with tex-like syntax support
   # "kdenlive-git",           # A non-linear video editor for Linux using the MLT video framework. KF5 Frameworks (Latest Applications GIT Version)
   # "opencode-bin",           # The open source AI coding agent.
 ]
@@ -57,6 +58,7 @@ items = [
   "fava",       # Fava is a web interface for the double-entry bookkeeping software Beancount
   "posting",    # Posting is a beautiful terminal app for developing & testing APIs
   "markitdown", # Python utility for converting various files to Markdown
+  "pylatexenc", # Simple LaTeX parser providing latex-to-unicode and unicode-to-latex conversion
 ]
 
 
