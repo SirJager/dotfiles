@@ -1,0 +1,14 @@
+# --------------------------------------- #
+#    Services to enable with flag --now   #
+# --------------------------------------- #
+
+add = "systemctl --user enable --now #:?"
+remove = "systemctl --user disable --now #:?"
+
+plural_name = "user services (now)"
+
+hook_name = "user_serv_start"
+
+[config]
+many_args = true
+arg_sep = " "

@@ -14,12 +14,14 @@
 
 [managers.packages]
 items = [
-  "polkit-gnome",              # PolicyKit authentication agent for GNOME
-  "gnome-keyring",             # Secure storage for passwords and keys
-  "lxqt-policykit",            # PolicyKit authentication agent for LXQt
-  "libnotify",                 # Library for sending desktop notifications
-  # "dunst",                  # Lightweight notification daemon
+  "polkit-gnome",           # PolicyKit authentication agent for GNOME
+  "gnome-keyring",          # Secure storage for passwords and keys
+  "libsecret",              # A GObject-based library for storing and receiving secrets
+  "lxqt-policykit",         # PolicyKit authentication agent for LXQt
+  "libnotify",              # Library for sending desktop notifications
   "pamixer",                # Command-line volume control for PulseAudio
+  "pipewire",               # multimedia framework for handling audio and video
+  "wireplumber",            # A powerful session and policy manager for PipeWire
   "networkmanager",         # Network management daemon
   "network-manager-applet", # GUI applet for NetworkManager
   "blueman",                # Bluetooth manager GUI
@@ -35,4 +37,10 @@ items = [
 items = [
   "NetworkManager",        # Enable NetworkManager service at startup
   "power-profiles-daemon", # Enable Power Profile Daemon
+]
+
+
+[managers.user_serv_enable]
+items = [
+  "gnome-keyring-daemon",   # Enables gnome-keyring for passwords and keys
 ]

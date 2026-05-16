@@ -13,6 +13,12 @@ items = [
   "slurp",                    # Select a region in a Wayland compositor and print it to the standard output
   "grim",                     # Grab images from a Wayland compositor. Works great with slurp.
   "wf-recorder",              # cli based screen recording, uses ffmpeg
+  "xdg-desktop-portal-gtk",   # GTK portal for bus integration for wayland
   "xdg-desktop-portal-wlr",   # GTK portal for bus integration for wayland
   "xdg-desktop-portal-gnome", # Gnome portal used for screen recording and sharing
+]
+
+[managers.user_serv_enable]
+items = [
+  "xdg-desktop-portal-gtk", #
 ]

@@ -1,0 +1,14 @@
+# ----------------------------------- #
+#    Services to enable on startup    #
+# ----------------------------------- #
+
+add = "systemctl --user enable #:?"
+remove = "systemctl --user disable #:?"
+
+plural_name = "user services (startup)"
+
+hook_name = "user_serv_enable"
+
+[config]
+many_args = true
+arg_sep = " "

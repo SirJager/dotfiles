@@ -30,6 +30,7 @@ export GIT_DISCOVERY_ACROSS_FILESYSTEM=1     # github
 export CHROME_EXECUTABLE='/usr/bin/brave'    # Chrome executable path
 export ZSH_TMUX_AUTONAME_SESSION="true"      # autoname tmux sessions
 export CARAPACE_BRIDGES='zsh,inshellisense'  # optional
+export KDE_KWALLET_DISABLE=1
 
 # Android & Flutter
 # export FLUTTER_ROOT="$mystorage/programs/appdev/flutter"

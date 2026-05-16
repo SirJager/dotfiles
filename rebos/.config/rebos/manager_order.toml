@@ -13,4 +13,6 @@ begin = [
 end = [
   "serv_enable",
   "serv_start",
+  "user_serv_enable",
+  "user_serv_start",
 ]
