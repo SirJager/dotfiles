@@ -269,7 +269,7 @@ binds {
     Mod+Ctrl+B repeat=false hotkey-overlay-title="toggle:: borders" {
         spawn-sh "toggle-line --id=border --on=off --off=off --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
-    Mod+Ctrl+S repeat=false hotkey-overlay-title="toggle:: shadows" {
+    Mod+Ctrl+V repeat=false hotkey-overlay-title="toggle:: shadows" {
         spawn-sh "toggle-line --id=shadow --on=on --off=on --comment='//' --notify --comment-out --file=$HOME/.config/niri/config.kdl"
     }
     Mod+Ctrl+C repeat=false hotkey-overlay-title="utility:: color picker" {
@@ -524,10 +524,10 @@ binds {
     //==============================================================================
     // Screenshot Utility
     //==============================================================================
-    Mod+Shift+V repeat=false hotkey-overlay-title="screenshot:: selective screenshot" {
+    Mod+Shift+S repeat=false hotkey-overlay-title="screenshot:: selective screenshot" {
         screenshot
     }
-    Mod+Ctrl+V repeat=false hotkey-overlay-title="screenshot:: window screenshot" {
+    Mod+Ctrl+S repeat=false hotkey-overlay-title="screenshot:: window screenshot" {
         screenshot-window
     }
     Mod+Alt+V repeat=false hotkey-overlay-title="screenshot:: desktop screenshot" {

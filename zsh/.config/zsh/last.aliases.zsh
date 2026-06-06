@@ -3,6 +3,8 @@
 alias c="clear"
 alias cat="bat"
 
+alias shred_file="shred -uvzn 3"
+
 alias ledger="command hledger"
 
 # [ Custom Aliases  ]================================
@@ -15,6 +17,7 @@ alias ssh-eval='eval "$(ssh-agent -s)"'     # Evaluate SSH Agent
 alias ssh-test='ssh -T git@github.com'      # Test SSH
 
 alias sys='sudo systemctl' # Systemctl
+alias restart-portals='systemctl --user restart xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-gnome xdg-desktop-portal-wlr pipewire wireplumber'
 
 # Sway
 alias swayapps='swaymsg -t get_tree | jq -r '"'"'.. | objects | if has("app_id") and .app_id != null then "id:" + .app_id elif has("class") and .class != null then "cl:" + .class else empty end'"'"' | sort -u'
