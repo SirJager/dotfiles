@@ -14,6 +14,7 @@ M.opts = {
   playground = { enable = false },
   matchup = { enable = true, disable = { 'c', 'ruby', 'rust' } },
   indent = { enable = true, disable = { 'yaml', 'python', 'yml' } },
+  incremental_selection = { enable = true },
 
   highlight = {
     enable = true,
@@ -66,7 +67,7 @@ M.init = function()
   local ensureInstalled = { 'diff', 'bash', 'jq', 'lua', 'html', "latex", 
   'typst', 'yaml', 'markdown', 'markdown_inline', 'typescript', 'tsx', 
   'javascript', 'json', 'css', 'scss', 'astro', 'rasi', 'vim', 'vimdoc', 
-  'regex', 'go', 'python', }
+  'regex', 'go', 'python', 'beancount' }
   -- stylua: ignore end
   local alreadyInstalled = require('nvim-treesitter.config').get_installed()
   local parsersToInstall = vim

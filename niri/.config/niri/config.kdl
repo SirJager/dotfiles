@@ -31,7 +31,7 @@ input {
     }
     touchpad {
         //::toggle::touchpad
-        off
+// off
         tap
         natural-scroll
         accel-speed 0.2
@@ -169,7 +169,7 @@ spawn-sh-at-startup "pgrep -x swww-daemon >/dev/null || swww-daemon"
 // spawn-sh-at-startup "pgrep -x blueman-applet >/dev/null || blueman-applet >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -f kdeconnect-indicator >/dev/null || kdeconnect-indicator >/dev/null 2>&1"
 spawn-sh-at-startup "pgrep -x udiskie >/dev/null || udiskie --no-automount --smart-tray >/dev/null 2>&1"
-// spawn-sh-at-startup "pidof -x niri-float-sticky >/dev/null || niri-float-sticky >/dev/null 2>&1"
+spawn-sh-at-startup "pidof -x niri-float-sticky >/dev/null || niri-float-sticky >/dev/null 2>&1"
 //==============================================================================
 // Autostart: brave
 //==============================================================================
@@ -285,7 +285,7 @@ binds {
         spawn-sh "rofi -show drun -theme ~/.config/rofi/launchers/type-6/style-9.rasi"
     }
     Alt+Return repeat=false hotkey-overlay-title="launch:: terminal kitty with tmux" {
-        spawn-sh "kitty --config ~/.config/kitty/kitty-tmux.conf /usr/bin/zsh -c tmux attach"
+        spawn-sh "kitty --config ~/.config/kitty/kitty.conf /usr/bin/zsh -c tmux attach"
     }
     Mod+Shift+Return repeat=false hotkey-overlay-title="launch:: terminal kitty" {
         spawn-sh "kitty"

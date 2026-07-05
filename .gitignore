@@ -24,6 +24,7 @@ dist/
 # IDE files
 .vscode/
 .idea/
+node_modules/
 
 # OS files
 .DS_Store

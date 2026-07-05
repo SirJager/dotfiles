@@ -151,6 +151,14 @@ M.opts.sources = {
       module = 'vim_dadbod_completion.blink',
       score_offset = 85, -- the higher the number, the higher the priority
     },
+    beancount = {
+      name = 'beancount',
+      module = 'beancount.completion.blink',
+      score_offset = 100,
+      opts = {
+        trigger_characters = { ':', '#', '^', '"', ' ' },
+      },
+    },
     hledger = {
       enabled = true,
       name = 'hledger',

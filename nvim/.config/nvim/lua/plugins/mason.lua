@@ -49,7 +49,7 @@ M.servers = {
     'gopls',
     'golangci_lint_ls',
     'vimls',
-    -- 'beancount',
+    'beancount',
   },
   linters = {
     'shellcheck',

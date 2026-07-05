@@ -316,19 +316,19 @@
                         "format": "hh:mm",
                         "id": "Clock",
                         "roundedCorners": true,
-                        "scale": 5,
+                        "scale": 3.664286338882068,
                         "showBackground": false,
                         "useCustomFont": false,
-                        "x": 736,
-                        "y": 508
+                        "x": 797,
+                        "y": 245
                     },
                     {
                         "id": "Weather",
                         "roundedCorners": true,
                         "scale": 1,
                         "showBackground": false,
-                        "x": 840,
-                        "y": 0
+                        "x": 1489,
+                        "y": 512
                     },
                     {
                         "colorName": "primary",
@@ -351,8 +351,8 @@
                         "scale": 1,
                         "showBackground": false,
                         "statType": "Network",
-                        "x": 1660,
-                        "y": 3
+                        "x": 1650,
+                        "y": 34
                     }
                 ]
             }

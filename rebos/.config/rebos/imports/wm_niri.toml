@@ -1,5 +1,6 @@
 # Niri Window Manager
 [managers.packages]
 items = [
-  "niri", # A scrollable-tiling Wayland compositor 
+  "niri",              # A scrollable-tiling Wayland compositor ,
+  "niri-float-sticky", # utility to make floating windows visible across all workspaces
 ]
